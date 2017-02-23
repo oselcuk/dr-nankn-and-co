@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "869153090400",
+    "firebase_url": "https://cs2340-clearwater.firebaseio.com",
+    "project_id": "cs2340-clearwater",
+    "storage_bucket": "cs2340-clearwater.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869153090400:android:626737ce6193ee2c",
+        "android_client_info": {
+          "package_name": "com.DrNankn.cleanwater"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869153090400-9gor8t7tp991umoe3tkqaaipnakuaq2b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.DrNankn.cleanwater",
+            "certificate_hash": "C39A851B93C62A18CF7B8C6F5A417B4A0E3CF32F"
+          }
+        },
+        {
+          "client_id": "869153090400-3svca0fh8ipfecm2eaematn4q757744h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUDpyTAO09jfnC0HTWQIOZh_oP9kdoxdg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869153090400-3svca0fh8ipfecm2eaematn4q757744h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

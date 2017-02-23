@@ -11,6 +11,7 @@
     tools:context="com.DrNankn.cleanwater.LoginActivity">
 
     <!-- Login progress -->
+
     <LinearLayout
         android:id="@+id/progress_group"
         android:layout_width="match_parent"
@@ -49,13 +50,13 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/username"
+                    android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_username"
-                    android:inputType="text"
-                    android:maxLines="1" />
-
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:layout_weight="1" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -104,14 +105,6 @@
                         android:maxLines="1" />
 
                 </android.support.design.widget.TextInputLayout>
-
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/email_address"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1" />
 
                 <EditText
                     android:id="@+id/confirm_email"
