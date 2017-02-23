@@ -27,11 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
 
-        <Button
-            android:text="@string/cancel_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/cancel_login_button" />
     </LinearLayout>
 
     <ScrollView

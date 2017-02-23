@@ -17,4 +17,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="show_password">Show password</string>
     <string name="cancel_login">Cancel Login</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>

