@@ -155,6 +155,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Creates an account for the user in the system and stores necessary information for the user like
+     * email and password. The method also checks that the password and email are valid entries.
+     */
     private void createAccount() {
         final String email = mEmailView.getText().toString();
         final String password = mPasswordView.getText().toString();
@@ -186,6 +190,10 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Attempts to log the user into the system. If the user enters a valid email adress and password then control is
+     * passed to loginSuccessful, otherwise the method returns.
+     */
     private void login() {
         if (mEmailView.getText().length() == 0) {
             loginSuccessful(new User("admin", User.Role.Administrator), false);
@@ -216,6 +224,12 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Logs the specified user into the system
+     *
+     * @param user The user being logged into the system
+     * @param newUser A boolean that indicates whether the user is a new user
+     */
     private void loginSuccessful(User user, boolean newUser) {
         mPasswordView.getText().clear();
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -230,6 +244,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * Checks to see if the password is a valid password
+     *
      * @return true if password is valid
      */
     private boolean validatePassword() {
@@ -242,6 +258,11 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
+    /**
+     * Checks to see if the email is a valid email address
+     *
+     * @return true is email is valid
+     */
     private boolean validateEmail() {
         String email = mEmailView.getText().toString();
         boolean valid = Pattern.matches("^.+@.+\\..+", email);
@@ -252,6 +273,12 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
+    /**
+     * Animates the view visibility for the login screen
+     *
+     * @param view The view for the page
+     * @param show A boolean indicating whether the page should be displayed
+     */
     private void animateViewVisibility(final View view, final boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);
         view.animate().setDuration(mShortAnimTime).alpha(
