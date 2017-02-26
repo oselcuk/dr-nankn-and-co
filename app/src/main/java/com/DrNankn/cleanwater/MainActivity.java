@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.dummyText)).setText(
                 DUMMY_TEXTS[new Random().nextInt(DUMMY_TEXTS.length)]);
         mActiveUser = getIntent().getParcelableExtra("USER");
-        setTitle("Welcome " + mActiveUser.email + "(" + mActiveUser.role + ")");
+        setTitle("Welcome " + mActiveUser.name + "(" + mActiveUser.role + ")");
         if (getIntent().getBooleanExtra("NEW_USER", false)) {
             Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show();
         }

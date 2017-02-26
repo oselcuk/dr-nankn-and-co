@@ -14,10 +14,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +30,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -40,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordConfirmationView;
     private EditText mEmailView;
     private EditText mEmailConfirmationView;
+    private Spinner mUserType;
     private View mRegisterGroup;
     private View mProgressView;
     private View mLoginFormView;
@@ -126,6 +131,11 @@ public class LoginActivity extends AppCompatActivity {
 
         mEmailView = (EditText) findViewById(R.id.email);
         mEmailConfirmationView = (EditText) findViewById(R.id.confirm_email);
+        mUserType = (Spinner) findViewById(R.id.userType);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter(this,android.R.layout.simple_spinner_item, new ArrayList<>(Arrays.asList(User.Role.values())));
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mUserType.setAdapter(adapter2);
 
         new ConfirmationWatcher(mEmailView, mEmailConfirmationView, "Email addresses");
 
@@ -157,11 +167,14 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Creates an account for the user in the system and stores necessary information for the user like
-     * email and password. The method also checks that the password and email are valid entries.
+     * email, password and role. The method also checks that the password and email are valid entries.
      */
     private void createAccount() {
         final String email = mEmailView.getText().toString();
         final String password = mPasswordView.getText().toString();
+        final User.Role role = (User.Role) mUserType.getSelectedItem();
+
+
         if (!validatePassword() || !validateEmail()
                 || !email.equals(mEmailConfirmationView.getText().toString())
                 || !password.equals(mPasswordConfirmationView.getText().toString())) {
@@ -178,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                         animateViewVisibility(mProgressView, false);
                         animateViewVisibility(mLoginFormView, true);
                         if (task.isSuccessful()) {
-                            User user = new User(email);
+                            User user = new User(email, role);
                             mDatabase.child("users").push().setValue(user);
                             loginSuccessful(user, true);
                         } else {
@@ -195,10 +208,10 @@ public class LoginActivity extends AppCompatActivity {
      * passed to loginSuccessful, otherwise the method returns.
      */
     private void login() {
-        if (mEmailView.getText().length() == 0) {
-            loginSuccessful(new User("admin", User.Role.Administrator), false);
-            return;
-        }
+//        if (mEmailView.getText().length() == 0) {
+//            loginSuccessful(new User("admin", User.Role.Administrator), false);
+//            return;
+//        }
         final String password = mPasswordView.getText().toString();
         final User user = new User(mEmailView.getText().toString());
         if (!validatePassword() || !validateEmail()) {

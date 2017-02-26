@@ -10,23 +10,32 @@ import android.os.Parcelable;
 public class User implements Parcelable{
 
     public String email;
+    public String name;
+    public String birthDate;
     public Role role;
+    public String address;
 
     public User() {
         role = Role.User;
     }
 
     public User(String email) {
-        this(email, Role.User);
+        this(email, Role.User, "N/A", email);
     }
 
     public User(String email, Role role) {
+        this(email, role, "N/A", email);
+    }
+
+    public User(String email, Role role, String address, String name) {
         this.email = email;
         this.role = role;
+        this.address = address;
+        this.name = name;
     }
 
     public User(Parcel in) {
-        this(in.readString(), Role.valueOf(in.readString()));
+        this(in.readString(), Role.valueOf(in.readString()), in.readString(), in.readString());
     }
 
     @Override
@@ -38,6 +47,8 @@ public class User implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(email);
         dest.writeString(role.name());
+        dest.writeString(address);
+        dest.writeString(name);
     }
 
     public static final Parcelable.Creator<User> CREATOR
