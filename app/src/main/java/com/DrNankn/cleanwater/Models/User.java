@@ -1,4 +1,4 @@
-package com.DrNankn.cleanwater;
+package com.DrNankn.cleanwater.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,7 +11,7 @@ public class User implements Parcelable{
 
     public String email;
     public String name;
-    public String birthDate;
+    public String birthDate; //TODO: This needs to be a Date object, not String. Also add it to Parcelable methods
     public Role role;
     public String address;
 

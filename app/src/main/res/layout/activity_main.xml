@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.DrNankn.cleanwater.MainActivity">
+    tools:context="com.DrNankn.cleanwater.Activities.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,5 +17,20 @@
         android:id="@+id/dummyText"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/submit_report_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/submit_report" />
+
+    <ListView
+        android:id="@+id/reports_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

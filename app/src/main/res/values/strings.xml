@@ -22,4 +22,8 @@
     <string name="edit_password">New Password</string>
     <string name="edit_address">New Address</string>
     <string name="edit_name">New Name</string>
+    <string name="submit_report">Submit Report</string>
+    <string name="add_water_source_report">Add Water Source Report</string>
+    <string name="add_water_purity_report">Add Water Purity Report</string>
+    <string name="submitting_as">Submitting as: </string>
 </resources>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<TextView-->
+        <!--android:text="Date and Time:"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/textView5"-->
+        <!--android:textAppearance="@android:style/TextAppearance.Material.Medium"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="30dp" />-->
+
+    <!--<TextView-->
+        <!--android:text="ReportID:"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/textView6"-->
+        <!--android:textAppearance="@android:style/TextAppearance.Material.Medium"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginTop="5dp" />-->
+
+    <TextView
+        android:text="@string/submitting_as"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/source_submitting_as_label"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:text="Type of Water"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView11"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="30dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/source_type_spinner"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="0dp" />
+
+    <TextView
+        android:text="Condition of Water"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView9"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/source_water_condition_spinner"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="0dp" />
+
+    <Button
+        android:text="Add Location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/source_add_location_button"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        style="@android:style/TextAppearance.Material.Small"
+        android:textStyle="bold"
+        />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2">
+
+
+        <Button
+            android:id="@+id/source_cancel_button"
+            style="@android:style/TextAppearance.Material.Small"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="Cancel"
+            android:textStyle="bold"
+            android:layout_column="1"/>
+
+        <Button
+            android:id="@+id/source_create_button"
+            style="@android:style/TextAppearance.Material.Small"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="Create"
+            android:textStyle="bold"
+            android:layout_column="0"/>
+
+    </GridLayout>
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/add_source_report"
+        android:title="@string/add_water_source_report"/>
+    <item android:id="@+id/add_purity_report"
+        android:title="@string/add_water_purity_report"/>
+</menu>

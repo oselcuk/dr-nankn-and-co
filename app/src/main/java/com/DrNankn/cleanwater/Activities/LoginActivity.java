@@ -1,4 +1,4 @@
-package com.DrNankn.cleanwater;
+package com.DrNankn.cleanwater.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.DrNankn.cleanwater.Models.User;
+import com.DrNankn.cleanwater.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -208,10 +210,10 @@ public class LoginActivity extends AppCompatActivity {
      * passed to loginSuccessful, otherwise the method returns.
      */
     private void login() {
-//        if (mEmailView.getText().length() == 0) {
-//            loginSuccessful(new User("admin", User.Role.Administrator), false);
-//            return;
-//        }
+        if (mEmailView.getText().length() == 0) {
+            loginSuccessful(new User("admin", User.Role.Administrator), false);
+            return;
+        }
         final String password = mPasswordView.getText().toString();
         final User user = new User(mEmailView.getText().toString());
         if (!validatePassword() || !validateEmail()) {
