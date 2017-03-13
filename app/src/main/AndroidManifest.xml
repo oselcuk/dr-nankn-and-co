@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.DrNankn.cleanwater">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +26,22 @@
         </activity>
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.EditProfileActivity" />
-        <activity android:name=".Activities.NewWaterReportActivity"></activity>
+        <activity android:name=".Activities.NewWaterReportActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".Activities.WaterLocationsActivity"
+            android:label="@string/title_activity_water_locations">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.DrNankn.cleanwater.Activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

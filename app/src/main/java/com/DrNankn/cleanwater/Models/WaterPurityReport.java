@@ -1,13 +1,9 @@
 package com.DrNankn.cleanwater.Models;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.UUID;
+import android.os.Parcel;
 
-/**
- * Created by nikhil on 3/6/2017.
- */
+import com.google.android.gms.maps.model.LatLng;
+
 public class WaterPurityReport extends Report {
 
     private WaterCondition mWaterCondition;
@@ -23,13 +19,45 @@ public class WaterPurityReport extends Report {
      * @param virusPPM          PPM virus levels in the water
      * @param contaminantPPM    PPM contaminant levels in the water
      */
-    public WaterPurityReport(String workerEmail, WaterCondition waterCondition,
+    public WaterPurityReport(String workerEmail, LatLng location, WaterCondition waterCondition,
                              float virusPPM, float contaminantPPM) {
-        super(workerEmail);
+        super(workerEmail, location);
         mWaterCondition = waterCondition;
         mVirusPPM = virusPPM;
         mContaminantPPM = contaminantPPM;
     }
+
+    protected WaterPurityReport(Parcel in) {
+        super(in);
+        mWaterCondition = WaterCondition.valueOf(in.readString());
+        mVirusPPM = in.readFloat();
+        mContaminantPPM = in.readFloat();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(mWaterCondition.name());
+        dest.writeFloat(mVirusPPM);
+        dest.writeFloat(mContaminantPPM);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<WaterPurityReport> CREATOR = new Creator<WaterPurityReport>() {
+        @Override
+        public WaterPurityReport createFromParcel(Parcel in) {
+            return new WaterPurityReport(in);
+        }
+
+        @Override
+        public WaterPurityReport[] newArray(int size) {
+            return new WaterPurityReport[size];
+        }
+    };
 
     public float getmVirusPPM() {
         return mVirusPPM;

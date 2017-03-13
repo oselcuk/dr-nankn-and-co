@@ -1,102 +1,95 @@
 package com.DrNankn.cleanwater.Activities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.DrNankn.cleanwater.Models.Report;
 import com.DrNankn.cleanwater.Models.User;
-import com.DrNankn.cleanwater.Models.WaterPurityReport;
 import com.DrNankn.cleanwater.Models.WaterSourceReport;
-import com.DrNankn.cleanwater.Models.WaterType;
 import com.DrNankn.cleanwater.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String[] DUMMY_TEXTS = new String[]{
-            "This activity intentionally left blank",
-            "Creation of the rest of the app is left as an exercise to the user",
-            "Great app, but too much water. 7.8/10 ~IGN"
-    };
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static List<Report> mReports = new ArrayList<>(); // Temporary reports store
 
     User mActiveUser;
+    GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ((TextView) findViewById(R.id.dummyText)).setText(
-                DUMMY_TEXTS[new Random().nextInt(DUMMY_TEXTS.length)]);
+        // Set active user and the title
         mActiveUser = getIntent().getParcelableExtra("USER");
         setTitle("Welcome " + mActiveUser.name + "(" + mActiveUser.role + ")");
         if (getIntent().getBooleanExtra("NEW_USER", false)) {
             Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show();
         }
 
+        // Set callbacks for the submit report button
+        // TODO: Getting the list of possible report types should be delegated to the user object
         final Button submit_report = (Button) findViewById(R.id.submit_report_button);
         if (mActiveUser.role == User.Role.User) {
             submit_report.setText(getString(R.string.add_water_source_report));
-            submit_report.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, WaterSourceReport.class);
-                    intent.putExtra("USER", mActiveUser);
-                    startActivity(intent);
-                }
+            submit_report.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, WaterSourceReport.class);
+                intent.putExtra("USER", mActiveUser);
+                startActivityForResult(intent, 0); // TODO: Make variable for this code
             });
         } else {
-            submit_report.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
-                    popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            Intent intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
-                            if (item.getItemId() == R.id.add_source_report) {
-                                intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
-                            } else if (item.getItemId() == R.id.add_purity_report) {
-                                intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
-                            } else {
-                                return false;
-                            }
-                            intent.putExtra("USER", mActiveUser);
-                            startActivity(intent);
-                            return true;
-                        }
-                    });
-                    popup.show();
-                }
+            submit_report.setOnClickListener(v -> {
+                PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
+                popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(item -> {
+                    Intent intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
+                    if (item.getItemId() == R.id.add_source_report) {
+                        intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
+                    } else if (item.getItemId() == R.id.add_purity_report) {
+                        intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
+                    } else {
+                        return false;
+                    }
+                    intent.putExtra("USER", mActiveUser);
+                    startActivityForResult(intent, 0);
+                    return true;
+                });
+                popup.show();
             });
         }
+
+        // Ask android for the map
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        if (hasFocus) {
-            ListView list = (ListView) findViewById(R.id.reports_list_view);
-            ArrayAdapter<Report> adapter = new ArrayAdapter<>(
-                    this, android.R.layout.simple_spinner_item, mReports);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            list.setAdapter(adapter);
-        }
+    /**
+     * Add a location marker for the given report
+     * @param report Report object to add a marker for
+     */
+    public void addLocationMarker(Report report) {
+        mMap.addMarker(new MarkerOptions().position(report.getLocation()).title(report.toString()));
     }
 
     @Override
@@ -115,5 +108,38 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        } else {
+            mMap.setMyLocationEnabled(true);
+        }
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(0, 0)));
+        mReports.forEach(this::addLocationMarker);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        // TODO: Do things with location?
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (0) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    Report report = data.getParcelableExtra("REPORT");
+                    addLocationMarker(report);
+                    mReports.add(report);
+                }
+                break;
+            }
+        }
     }
 }
