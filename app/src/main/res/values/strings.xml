@@ -18,6 +18,7 @@
     <string name="show_password">Show password</string>
     <string name="cancel_login">Cancel Login</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="log_out">Log Out</string>
     <string name="edit_email">New Email</string>
     <string name="edit_password">New Password</string>
     <string name="edit_address">New Address</string>

@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -89,6 +90,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * @param report Report object to add a marker for
      */
     public void addLocationMarker(Report report) { // TODO: move all this map crap to a separate fragment?
+        if (report.getLocation() == null) {
+            Random random = new Random();
+            LatLng mLocation = new LatLng(random.nextDouble()*50-25, random.nextDouble()*50-25);
+            report.setLocation(mLocation);
+        }
         mMap.addMarker(new MarkerOptions().position(report.getLocation()).title(report.toString()).draggable(true));
     }
 
@@ -105,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 intent.putExtra("USER", mActiveUser);
                 startActivity(intent);
+            case R.id.action_log_out:
+                Intent intent2 = new Intent(this, LoginActivity.class);
+                startActivity(intent2);
         }
 
         return super.onOptionsItemSelected(item);
@@ -119,8 +128,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.setMyLocationEnabled(true);
         }
         mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(0, 0)));
-        mReports.forEach(this::addLocationMarker);
+//        mReports.forEach(this::addLocationMarker);
+        for (Report r : mReports) {
+            addLocationMarker(r);
+        }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,

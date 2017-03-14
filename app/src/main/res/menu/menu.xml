@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent">
 
+    <item
+        android:id="@+id/action_log_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/log_out"
+        app:showAsAction="always"
+        tools:icon="@android:drawable/ic_lock_idle_lock" />
     <item
         android:id="@+id/action_edit_profile"
         android:icon="@drawable/ic_edit_profile"
         android:title="@string/edit_profile"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
 </menu>
