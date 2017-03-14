@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
@@ -12,21 +11,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.DrNankn.cleanwater.Models.User;
 import com.DrNankn.cleanwater.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -63,15 +56,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Set up firebase
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d("FIREBASE", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    Log.d("FIREBASE", "onAuthStateChanged:signed_out");
-                }
+        mAuthListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                Log.d("FIREBASE", "onAuthStateChanged:signed_in:" + user.getUid());
+            } else {
+                Log.d("FIREBASE", "onAuthStateChanged:signed_out");
             }
         };
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -79,51 +69,38 @@ public class LoginActivity extends AppCompatActivity {
         mShortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    login();
-                    return true;
-                }
-                return false;
+        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                login();
+                return true;
             }
+            return false;
         });
 
         mPasswordConfirmationView = (EditText) findViewById(R.id.confirm_password);
         new ConfirmationWatcher(mPasswordView, mPasswordConfirmationView, "Passwords");
 
         CheckBox mShowPassword = (CheckBox) findViewById(R.id.show_password);
-        mShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int t = isChecked
-                        ? InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                        : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
-                mPasswordView.setInputType(t);
-                mPasswordConfirmationView.setInputType(t);
-            }
+        mShowPassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            int t = isChecked
+                    ? InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                    : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
+            mPasswordView.setInputType(t);
+            mPasswordConfirmationView.setInputType(t);
         });
 
         mRegisterGroup = findViewById(R.id.register_group);
 
         Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
-        mSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
-        });
+        mSignInButton.setOnClickListener(view -> login());
 
         final Button mRegisterButton = (Button) findViewById(R.id.register_button);
-        mRegisterButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mRegisterGroup.getVisibility() != View.VISIBLE) {
-                    animateViewVisibility(mRegisterGroup, true);
-                } else {
-                    createAccount();
-                }
+        mRegisterButton.setOnClickListener(v -> {
+            if (mRegisterGroup.getVisibility() != View.VISIBLE) {
+                animateViewVisibility(mRegisterGroup, true);
+                animateViewVisibility(mSignInButton, false);
+            } else {
+                createAccount();
             }
         });
         mRegisterButton.setImeActionLabel("Register", KeyEvent.KEYCODE_ENTER);
@@ -141,15 +118,12 @@ public class LoginActivity extends AppCompatActivity {
 
         new ConfirmationWatcher(mEmailView, mEmailConfirmationView, "Email addresses");
 
-        mEmailConfirmationView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.register || id == EditorInfo.IME_NULL) {
-                    createAccount();
-                    return true;
-                }
-                return false;
+        mEmailConfirmationView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if (id == R.id.register || id == EditorInfo.IME_NULL) {
+                createAccount();
+                return true;
             }
+            return false;
         });
     }
 
@@ -186,21 +160,18 @@ public class LoginActivity extends AppCompatActivity {
         animateViewVisibility(mRegisterGroup, false);
         animateViewVisibility(mProgressView, true);
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("FIREBASE", "createUserWithEmail:onComplete:" + task.isSuccessful());
-                        animateViewVisibility(mProgressView, false);
-                        animateViewVisibility(mLoginFormView, true);
-                        if (task.isSuccessful()) {
-                            User user = new User(email, role);
-                            mDatabase.child("users").push().setValue(user);
-                            loginSuccessful(user, true);
-                        } else {
-                            mEmailView.setError("Couldn't register");
-                            mEmailView.requestFocus();
-                            animateViewVisibility(mRegisterGroup, true);
-                        }
+                .addOnCompleteListener(this, task -> {
+                    Log.d("FIREBASE", "createUserWithEmail:onComplete:" + task.isSuccessful());
+                    animateViewVisibility(mProgressView, false);
+                    animateViewVisibility(mLoginFormView, true);
+                    if (task.isSuccessful()) {
+                        User user = new User(email, role);
+                        mDatabase.child("users").push().setValue(user);
+                        loginSuccessful(user, true);
+                    } else {
+                        mEmailView.setError("Couldn't register");
+                        mEmailView.requestFocus();
+                        animateViewVisibility(mRegisterGroup, true);
                     }
                 });
     }
@@ -223,18 +194,15 @@ public class LoginActivity extends AppCompatActivity {
         animateViewVisibility(mRegisterGroup, false);
         animateViewVisibility(mProgressView, true);
         mAuth.signInWithEmailAndPassword(user.email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("FIREBASE", "signInWithEmail:onComplete:" + task.isSuccessful());
-                        animateViewVisibility(mProgressView, false);
-                        animateViewVisibility(mLoginFormView, true);
-                        if (task.isSuccessful()) {
-                            loginSuccessful(user, false);
-                        } else {
-                            mEmailView.setError("Couldn't login");
-                            mEmailView.requestFocus();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    Log.d("FIREBASE", "signInWithEmail:onComplete:" + task.isSuccessful());
+                    animateViewVisibility(mProgressView, false);
+                    animateViewVisibility(mLoginFormView, true);
+                    if (task.isSuccessful()) {
+                        loginSuccessful(user, false);
+                    } else {
+                        mEmailView.setError("Couldn't login");
+                        mEmailView.requestFocus();
                     }
                 });
     }

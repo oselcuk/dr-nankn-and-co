@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.DrNankn.cleanwater.Models.Report;
 import com.DrNankn.cleanwater.Models.User;
-import com.DrNankn.cleanwater.Models.WaterSourceReport;
 import com.DrNankn.cleanwater.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -53,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mActiveUser.role == User.Role.User) {
             submit_report.setText(getString(R.string.add_water_source_report));
             submit_report.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, WaterSourceReport.class);
+                Intent intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
+                intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
                 intent.putExtra("USER", mActiveUser);
                 startActivityForResult(intent, 0); // TODO: Make variable for this code
             });
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Add a location marker for the given report
      * @param report Report object to add a marker for
      */
-    public void addLocationMarker(Report report) {
-        mMap.addMarker(new MarkerOptions().position(report.getLocation()).title(report.toString()));
+    public void addLocationMarker(Report report) { // TODO: move all this map crap to a separate fragment?
+        mMap.addMarker(new MarkerOptions().position(report.getLocation()).title(report.toString()).draggable(true));
     }
 
     @Override
