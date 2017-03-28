@@ -31,6 +31,9 @@ public class NewWaterReportActivity extends AppCompatActivity {
     private Button mCancelButton;
     private LatLng mLocation;
     private Report mReport;
+    private EditText mLatitude;
+    private EditText mLongitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,7 @@ public class NewWaterReportActivity extends AppCompatActivity {
             mWaterTypeSpinner.setAdapter(adapter);
         }
         mCancelButton.setOnClickListener(v -> NewWaterReportActivity.this.onBackPressed());
-        mAddLocationButton.setOnClickListener(v -> addLocation());
+//        mAddLocationButton.setOnClickListener(v -> addLocation());
         mCreateButton.setOnClickListener(v -> {
             if (reportType == R.layout.water_source_report)
                 createSourceReport();
@@ -68,15 +71,24 @@ public class NewWaterReportActivity extends AppCompatActivity {
             finish();
         });
     }
-
+    /**
+     * Creates a random location for a report
+     */
     private void addLocation() {
         Random random = new Random();
         mLocation = new LatLng(random.nextDouble()*50-25, random.nextDouble()*50-25);
     }
-
+    /**
+     * Creates a Purity Report
+     */
     private void createPurityReport() {
         String virusppm = ((EditText)findViewById(R.id.virus_ppm_text)).getText().toString();
         String contmppm = ((EditText)findViewById(R.id.contaminant_ppm_text)).getText().toString();
+        String latitude = mLatitude.getText().toString();
+        String longitude = mLongitude.getText().toString();
+        double lat = latitude.equals("") ? 0 : Float.valueOf(latitude);
+        double longit = longitude.equals("") ? 0 : Float.valueOf(longitude);
+        mLocation = new LatLng(lat, longit);
         mReport = new WaterPurityReport(
                 mActiveUser.email, mLocation,
                 WaterCondition.valueOf(mWaterConditionSpinner.getSelectedItem().toString()),
@@ -84,33 +96,49 @@ public class NewWaterReportActivity extends AppCompatActivity {
                 contmppm.equals("") ? 0 : Float.valueOf(contmppm)
         );
     }
-
+    /**
+     * Creates a Source Report
+     */
     private void createSourceReport() {
+        String latitude = mLatitude.getText().toString();
+        String longitude = mLongitude.getText().toString();
+        double lat = latitude.equals("") ? 0 : Float.valueOf(latitude);
+        double longit = longitude.equals("") ? 0 : Float.valueOf(longitude);
+        mLocation = new LatLng(lat, longit);
         mReport = new WaterSourceReport(
                 mActiveUser.email, mLocation,
                 WaterType.valueOf(mWaterTypeSpinner.getSelectedItem().toString()),
                 WaterCondition.valueOf(mWaterConditionSpinner.getSelectedItem().toString())
         );
     }
-
+    /**
+     * Sets up a Purity Report
+     */
     private void setUpPurityReport() {
         setTitle("Submit purity report");
         TextView userLabel = (TextView) findViewById(R.id.purity_submitting_as_label);
         userLabel.append(" " + mActiveUser.name);
         mWaterConditionSpinner = (Spinner) findViewById(R.id.purity_water_condition_spinner);
-        mAddLocationButton = (Button) findViewById(R.id.purity_add_location_button);
+//        mAddLocationButton = (Button) findViewById(R.id.purity_add_location_button);
         mCreateButton = (Button) findViewById(R.id.purity_create_button);
         mCancelButton = (Button) findViewById(R.id.purity_cancel_button);
-    }
+        mLatitude = (EditText) findViewById(R.id.latitude);
+        mLongitude = (EditText) findViewById(R.id.longitude);
 
+    }
+    /**
+     * Sets up a Source Report
+     */
     private void setUpSourceReport() {
         setTitle("Submit source report");
         TextView userLabel = (TextView) findViewById(R.id.source_submitting_as_label);
         userLabel.append(" " + mActiveUser.name);
         mWaterConditionSpinner = (Spinner) findViewById(R.id.source_water_condition_spinner);
         mWaterTypeSpinner = (Spinner) findViewById(R.id.source_type_spinner);
-        mAddLocationButton = (Button) findViewById(R.id.source_add_location_button);
+//        mAddLocationButton = (Button) findViewById(R.id.source_add_location_button);
         mCreateButton = (Button) findViewById(R.id.source_create_button);
         mCancelButton = (Button) findViewById(R.id.source_cancel_button);
+        mLatitude = (EditText) findViewById(R.id.latitude2);
+        mLongitude = (EditText) findViewById(R.id.longitude2);
     }
 }

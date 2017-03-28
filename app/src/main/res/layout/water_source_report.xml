@@ -69,18 +69,54 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="0dp" />
 
-    <Button
-        android:text="Add Location"
+    <!--<Button-->
+        <!--android:text="Add Location"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/source_add_location_button"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:layout_marginRight="30dp"-->
+        <!--style="@android:style/TextAppearance.Material.Small"-->
+        <!--android:textStyle="bold"-->
+        <!--/>-->
+
+    <TextView
+        android:id="@+id/textViewuno"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/source_add_location_button"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        style="@android:style/TextAppearance.Material.Small"
-        android:textStyle="bold"
-        />
+        android:layout_marginTop="5dp"
+        android:text="@string/location_coord"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2">
+
+        <EditText
+            android:id="@+id/latitude2"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="30dp"
+            android:hint="0"
+            android:inputType="numberDecimal"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <EditText
+            android:id="@+id/longitude2"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="30dp"
+            android:hint="0"
+            android:inputType="numberDecimal" />
+
+    </GridLayout>
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
