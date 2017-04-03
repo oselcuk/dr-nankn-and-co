@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 intent.putExtra("USER", mActiveUser);
                 startActivityForResult(intent, 0); // TODO: Make variable for this code
             });
-        } else {
+        } else if (mActiveUser.role == User.Role.Worker || mActiveUser.role == User.Role.Administrator) {
             submit_report.setOnClickListener(v -> {
                 PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
                 popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
@@ -73,6 +73,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                     intent.putExtra("USER", mActiveUser);
                     startActivityForResult(intent, 0);
+                    return true;
+                });
+                popup.show();
+            });
+        } else if (mActiveUser.role == User.Role.Manager) {
+            submit_report.setOnClickListener(v -> {
+                PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
+                popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(item -> {
+                    Intent intent;
+                    if (item.getItemId() == R.id.add_source_report) {
+                        intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
+                        intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
+                        intent.putExtra("USER", mActiveUser);
+                        startActivityForResult(intent, 0);
+                    } else if (item.getItemId() == R.id.add_purity_report) {
+                        intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
+                        intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
+                        intent.putExtra("USER", mActiveUser);
+                        startActivityForResult(intent, 0);
+                    } else if (item.getItemId() == R.id.add_history_report) {
+                        intent = new Intent(MainActivity.this, NewHistoricalReportActivity.class);
+                        intent.putExtra("USER", mActiveUser);
+                        intent.putExtra("REPORT_TYPE", R.layout.water_historical_report);
+                        startActivity(intent);
+                    } else {
+                        return false;
+                    }
+
                     return true;
                 });
                 popup.show();

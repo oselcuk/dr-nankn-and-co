@@ -70,7 +70,7 @@
         android:layout_marginTop="0dp"
         android:ems="10"
         android:hint="0"
-        android:inputType="numberDecimal" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <TextView
         android:text="Contaminant PPM:"
@@ -91,7 +91,7 @@
         android:layout_marginTop="0dp"
         android:ems="10"
         android:hint="0"
-        android:inputType="numberDecimal" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <TextView
         android:id="@+id/textView4"
@@ -114,7 +114,7 @@
             android:layout_columnWeight="1"
             android:layout_marginLeft="30dp"
             android:hint="0"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <EditText
@@ -124,7 +124,7 @@
             android:layout_columnWeight="1"
             android:layout_marginLeft="30dp"
             android:hint="0"
-            android:inputType="numberDecimal" />
+            android:inputType="numberSigned|numberDecimal" />
 
     </GridLayout>
 

@@ -26,7 +26,12 @@
     <string name="submit_report">Submit Report</string>
     <string name="add_water_source_report">Add Water Source Report</string>
     <string name="add_water_purity_report">Add Water Purity Report</string>
+    <string name="add_history_report">Add Historical Report</string>
+    <string name="historical_graph">Historical Report Graph</string>
+    <string name="close">Close</string>
     <string name="submitting_as">Submitting as: </string>
     <string name="location_coord">Latitude and Longitude</string>
+    <string name="year">Year</string>
+    <string name="ppm">PPM</string>
     <string name="title_activity_water_locations">Locations</string>
 </resources>

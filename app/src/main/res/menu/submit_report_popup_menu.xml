@@ -4,4 +4,6 @@
         android:title="@string/add_water_source_report"/>
     <item android:id="@+id/add_purity_report"
         android:title="@string/add_water_purity_report"/>
+    <item android:id="@+id/add_history_report"
+        android:title="@string/add_history_report"/>
 </menu>

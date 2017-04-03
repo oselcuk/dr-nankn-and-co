@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void login() {
         if (mEmailView.getText().length() == 0) {
-            loginSuccessful(new User("admin", User.Role.Administrator), false);
+            loginSuccessful(new User("manager", User.Role.Manager), false);
             return;
         }
         final String password = mPasswordView.getText().toString();
