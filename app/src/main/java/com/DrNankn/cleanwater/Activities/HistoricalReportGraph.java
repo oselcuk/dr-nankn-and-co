@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.DrNankn.cleanwater.Models.User;
 import com.DrNankn.cleanwater.R;
@@ -20,6 +21,7 @@ public class HistoricalReportGraph extends AppCompatActivity {
     private int[] mMonths;
     private float[] mPPM;
     private Button mClose;
+    private TextView mHeading;
 
 
     @Override
@@ -29,7 +31,10 @@ public class HistoricalReportGraph extends AppCompatActivity {
         mActiveUser = getIntent().getParcelableExtra("USER");
         mMonths = getIntent().getIntArrayExtra("MONTHS");
         mPPM = getIntent().getFloatArrayExtra("PPM_ARR");
+        String heading = "Historical Report Graph: " + getIntent().getStringExtra("PPM") + " ppm";
+        mHeading = (TextView) findViewById(R.id.heading);
         mClose = (Button) findViewById(R.id.close_graph);
+        mHeading.setText(heading);
         GraphView graph = null;
         if (mActiveUser != null) {
             graph = (GraphView) findViewById(R.id.graph);

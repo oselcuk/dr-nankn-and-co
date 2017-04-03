@@ -58,10 +58,16 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
             intent.putExtra("USER", mActiveUser);
             intent.putExtra("PPM_ARR", ppm);
             intent.putExtra("MONTHS", months);
+            intent.putExtra("PPM", mPPMSpinner.getSelectedItem().toString());
             startActivity(intent);
+            finish();
+
         });
     }
 
+    /**
+     * Sets up the History Report parameters
+     */
     private void setUpHistoryReport() {
         mPPMSpinner = (Spinner) findViewById(R.id.ppm_type_spinner);
         mCreateButton = (Button) findViewById(R.id.history_create_button);
@@ -71,6 +77,9 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
         mYear = (EditText) findViewById(R.id.year);
 
     }
+    /**
+     * Creates a list of Purity Reports in a particular year and Region
+     */
     private void createPurityReportsList() {
         float lat = mLatitude.getText().toString().equals("")? 0 : Float.valueOf(mLatitude.getText().toString());
         float lng = mLongitude.getText().toString().equals("")? 0 : Float.valueOf(mLongitude.getText().toString());
@@ -91,7 +100,9 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
             }
         }
     }
-
+    /**
+     * Calculates the average ppm per month value of the requested ppm value of all the valid reports
+     */
     private void createPurityReport() {
         for (int i = 0; i < purityReports.size(); i++) {
             WaterPurityReport pReport = (WaterPurityReport)purityReports.get(i);

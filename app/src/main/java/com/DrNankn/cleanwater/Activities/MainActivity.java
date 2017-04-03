@@ -140,9 +140,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 intent.putExtra("USER", mActiveUser);
                 startActivity(intent);
+                return true;
             case R.id.action_log_out:
                 Intent intent2 = new Intent(this, LoginActivity.class);
                 startActivity(intent2);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

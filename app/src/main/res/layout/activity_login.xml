@@ -87,6 +87,17 @@
                 android:visibility="gone">
 
 
+                <EditText
+                    android:id="@+id/confirm_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/confirm_email_address"
+                    android:imeActionId="@+id/register"
+                    android:imeActionLabel="Register"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -100,17 +111,6 @@
                         android:maxLines="1" />
 
                 </android.support.design.widget.TextInputLayout>
-
-                <EditText
-                    android:id="@+id/confirm_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/confirm_email_address"
-                    android:imeActionId="@+id/register"
-                    android:imeActionLabel="Register"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1" />
 
                 <Spinner
                     android:layout_width="match_parent"

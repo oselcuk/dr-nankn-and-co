@@ -273,6 +273,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() { }
+
     private class ConfirmationWatcher implements TextWatcher {
 
         private EditText mOriginal;
@@ -297,6 +300,7 @@ public class LoginActivity extends AppCompatActivity {
                 mConfirmation.setError(null);
             }
         }
+
 
         @Override public void afterTextChanged(Editable s) { }
     }
