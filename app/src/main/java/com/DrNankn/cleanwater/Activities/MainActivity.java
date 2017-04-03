@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action_log_out:
                 Intent intent2 = new Intent(this, LoginActivity.class);
                 startActivity(intent2);
+                finish();
                 return true;
         }
 

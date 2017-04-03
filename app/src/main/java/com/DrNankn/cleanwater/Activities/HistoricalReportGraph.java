@@ -52,6 +52,7 @@ public class HistoricalReportGraph extends AppCompatActivity {
             Intent intent2 = new Intent(HistoricalReportGraph.this, MainActivity.class);
             intent2.putExtra("USER", mActiveUser);
             startActivity(intent2);
+            finish();
         });
 
     }
