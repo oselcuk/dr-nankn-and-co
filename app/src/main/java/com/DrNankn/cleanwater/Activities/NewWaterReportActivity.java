@@ -19,14 +19,11 @@ import com.DrNankn.cleanwater.Models.WaterType;
 import com.DrNankn.cleanwater.R;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Random;
-
 public class NewWaterReportActivity extends AppCompatActivity {
 
     private User mActiveUser;
     private Spinner mWaterConditionSpinner;
     private Spinner mWaterTypeSpinner;
-    private Button mAddLocationButton;
     private Button mCreateButton;
     private Button mCancelButton;
     private LatLng mLocation;
@@ -59,7 +56,6 @@ public class NewWaterReportActivity extends AppCompatActivity {
             mWaterTypeSpinner.setAdapter(adapter);
         }
         mCancelButton.setOnClickListener(v -> NewWaterReportActivity.this.onBackPressed());
-//        mAddLocationButton.setOnClickListener(v -> addLocation());
         mCreateButton.setOnClickListener(v -> {
             if (reportType == R.layout.water_source_report)
                 createSourceReport();
@@ -71,13 +67,7 @@ public class NewWaterReportActivity extends AppCompatActivity {
             finish();
         });
     }
-    /**
-     * Creates a random location for a report
-     */
-    private void addLocation() {
-        Random random = new Random();
-        mLocation = new LatLng(random.nextDouble()*50-25, random.nextDouble()*50-25);
-    }
+
     /**
      * Creates a Purity Report
      */
@@ -119,7 +109,6 @@ public class NewWaterReportActivity extends AppCompatActivity {
         TextView userLabel = (TextView) findViewById(R.id.purity_submitting_as_label);
         userLabel.append(" " + mActiveUser.name);
         mWaterConditionSpinner = (Spinner) findViewById(R.id.purity_water_condition_spinner);
-//        mAddLocationButton = (Button) findViewById(R.id.purity_add_location_button);
         mCreateButton = (Button) findViewById(R.id.purity_create_button);
         mCancelButton = (Button) findViewById(R.id.purity_cancel_button);
         mLatitude = (EditText) findViewById(R.id.latitude);
@@ -135,7 +124,6 @@ public class NewWaterReportActivity extends AppCompatActivity {
         userLabel.append(" " + mActiveUser.name);
         mWaterConditionSpinner = (Spinner) findViewById(R.id.source_water_condition_spinner);
         mWaterTypeSpinner = (Spinner) findViewById(R.id.source_type_spinner);
-//        mAddLocationButton = (Button) findViewById(R.id.source_add_location_button);
         mCreateButton = (Button) findViewById(R.id.source_create_button);
         mCancelButton = (Button) findViewById(R.id.source_cancel_button);
         mLatitude = (EditText) findViewById(R.id.latitude2);
