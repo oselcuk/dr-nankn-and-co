@@ -62,6 +62,26 @@ public class User implements Parcelable{
         }
     };
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
     public enum Role {
         User,
         Worker,

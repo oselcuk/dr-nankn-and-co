@@ -44,6 +44,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.DrNankn.cleanwater.Activities.MainActivity" />
         </activity>
+        <activity android:name=".Activities.ListReportsActivity"></activity>
     </application>
 
 </manifest>

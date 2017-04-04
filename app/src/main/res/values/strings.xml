@@ -34,4 +34,5 @@
     <string name="year">Year</string>
     <string name="ppm">PPM</string>
     <string name="title_activity_water_locations">Locations</string>
+    <string name="list_reports">List Reports</string>
 </resources>

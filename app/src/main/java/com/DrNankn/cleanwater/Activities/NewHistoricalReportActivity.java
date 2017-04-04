@@ -2,7 +2,6 @@ package com.DrNankn.cleanwater.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,11 +12,9 @@ import com.DrNankn.cleanwater.Models.Report;
 import com.DrNankn.cleanwater.Models.User;
 import com.DrNankn.cleanwater.Models.WaterPurityReport;
 import com.DrNankn.cleanwater.R;
-import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,21 +81,21 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
         float lat = mLatitude.getText().toString().equals("")? 0 : Float.valueOf(mLatitude.getText().toString());
         float lng = mLongitude.getText().toString().equals("")? 0 : Float.valueOf(mLongitude.getText().toString());
         int requestedYear = mYear.getText().toString().equals("")? 0: Integer.valueOf(mYear.getText().toString());
-        for (Report report : MainActivity.mReports) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(report.getTimeStamp());
-            int year = cal.get(Calendar.YEAR);
-            if (year == requestedYear) {
-                if (report instanceof WaterPurityReport) {
-                    if (report.getLocation().latitude < lat + 8
-                            && report.getLocation().latitude > lat - 8
-                            && report.getLocation().longitude < lng + 8
-                            && report.getLocation().longitude > lng - 8) {
-                        purityReports.add(report);
-                    }
-                }
-            }
-        }
+//        for (Report report : MainActivity.mReports) {
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(report.getTimeStamp());
+//            int year = cal.get(Calendar.YEAR);
+//            if (year == requestedYear) {
+//                if (report instanceof WaterPurityReport) {
+//                    if (report.getLocation().latitude < lat + 8
+//                            && report.getLocation().latitude > lat - 8
+//                            && report.getLocation().longitude < lng + 8
+//                            && report.getLocation().longitude > lng - 8) {
+//                        purityReports.add(report);
+//                    }
+//                }
+//            }
+//        }
     }
     /**
      * Calculates the average ppm per month value of the requested ppm value of all the valid reports

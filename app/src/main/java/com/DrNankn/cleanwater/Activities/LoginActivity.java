@@ -22,8 +22,11 @@ import com.DrNankn.cleanwater.Models.User;
 import com.DrNankn.cleanwater.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase; //TODO: Make a database service
 
     private int mShortAnimTime;
 
@@ -166,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                     animateViewVisibility(mLoginFormView, true);
                     if (task.isSuccessful()) {
                         User user = new User(email, role);
-                        mDatabase.child("users").push().setValue(user);
+                        mDatabase.child("users").child(email.replace('.', '_')).setValue(user);
                         loginSuccessful(user, true);
                     } else {
                         mEmailView.setError("Couldn't register");
@@ -185,21 +188,31 @@ public class LoginActivity extends AppCompatActivity {
             loginSuccessful(new User("manager", User.Role.Manager), false);
             return;
         }
-        final String password = mPasswordView.getText().toString();
-        final User user = new User(mEmailView.getText().toString());
         if (!validatePassword() || !validateEmail()) {
             return;
         }
+        final String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
         animateViewVisibility(mLoginFormView, false);
         animateViewVisibility(mRegisterGroup, false);
         animateViewVisibility(mProgressView, true);
-        mAuth.signInWithEmailAndPassword(user.email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     Log.d("FIREBASE", "signInWithEmail:onComplete:" + task.isSuccessful());
                     animateViewVisibility(mProgressView, false);
                     animateViewVisibility(mLoginFormView, true);
                     if (task.isSuccessful()) {
-                        loginSuccessful(user, false);
+                        mDatabase.child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                                loginSuccessful(user, false);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
                     } else {
                         mEmailView.setError("Couldn't login");
                         mEmailView.requestFocus();

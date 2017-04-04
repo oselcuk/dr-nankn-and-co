@@ -1,7 +1,6 @@
 package com.DrNankn.cleanwater.Activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,6 +22,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    public static List<Report> mReports = new ArrayList<>(); // Temporary reports store
+    private static final int SUBMIT_REPORT_VALUE = 0;
+    private static final int EDIT_PROFILE_VALUE = 1;
+    private static List<Report> mReports = new ArrayList<>(); // Temporary reports store
+    private DatabaseReference mDatabase;
 
     User mActiveUser;
     GoogleMap mMap;
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         // Set active user and the title
         mActiveUser = getIntent().getParcelableExtra("USER");
@@ -50,62 +57,63 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Set callbacks for the submit report button
         // TODO: Getting the list of possible report types should be delegated to the user object
         final Button submit_report = (Button) findViewById(R.id.submit_report_button);
-        if (mActiveUser.role == User.Role.User) {
-            submit_report.setText(getString(R.string.add_water_source_report));
-            submit_report.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
-                intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
-                intent.putExtra("USER", mActiveUser);
-                startActivityForResult(intent, 0); // TODO: Make variable for this code
-            });
-        } else if (mActiveUser.role == User.Role.Worker || mActiveUser.role == User.Role.Administrator) {
-            submit_report.setOnClickListener(v -> {
-                PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
-                popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
-                popup.setOnMenuItemClickListener(item -> {
+        switch (mActiveUser.role) {
+            case User:
+                submit_report.setText(getString(R.string.add_water_source_report));
+                submit_report.setOnClickListener(v -> {
                     Intent intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
-                    if (item.getItemId() == R.id.add_source_report) {
-                        intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
-                    } else if (item.getItemId() == R.id.add_purity_report) {
-                        intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
-                    } else {
-                        return false;
-                    }
+                    intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
                     intent.putExtra("USER", mActiveUser);
-                    startActivityForResult(intent, 0);
-                    return true;
+                    startActivityForResult(intent, SUBMIT_REPORT_VALUE);
                 });
-                popup.show();
-            });
-        } else if (mActiveUser.role == User.Role.Manager) {
-            submit_report.setOnClickListener(v -> {
-                PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
-                popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
-                popup.setOnMenuItemClickListener(item -> {
-                    Intent intent;
-                    if (item.getItemId() == R.id.add_source_report) {
-                        intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
-                        intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
+                break;
+            case Worker:
+                submit_report.setOnClickListener(v -> {
+                    PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
+                    popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
+                    popup.setOnMenuItemClickListener(item -> {
+                        Intent intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
+                        if (item.getItemId() == R.id.add_source_report) {
+                            intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
+                        } else if (item.getItemId() == R.id.add_purity_report) {
+                            intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
+                        } else {
+                            return false;
+                        }
                         intent.putExtra("USER", mActiveUser);
-                        startActivityForResult(intent, 0);
-                    } else if (item.getItemId() == R.id.add_purity_report) {
-                        intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
-                        intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
+                        startActivityForResult(intent, SUBMIT_REPORT_VALUE);
+                        return true;
+                    });
+                    popup.show();
+                });
+                break;
+            case Manager:
+            case Administrator:
+                submit_report.setOnClickListener(v -> {
+                    PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
+                    popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
+                    popup.setOnMenuItemClickListener(item -> {
+                        Intent intent;
+                        if (item.getItemId() == R.id.add_source_report) {
+                            intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
+                            intent.putExtra("REPORT_TYPE", R.layout.water_source_report);
+                        } else if (item.getItemId() == R.id.add_purity_report) {
+                            intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
+                            intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
+                        } else if (item.getItemId() == R.id.add_history_report) {
+                            intent = new Intent(MainActivity.this, NewHistoricalReportActivity.class);
+                            intent.putExtra("USER", mActiveUser);
+                        } else {
+                            return false;
+                        }
                         intent.putExtra("USER", mActiveUser);
-                        startActivityForResult(intent, 0);
-                    } else if (item.getItemId() == R.id.add_history_report) {
-                        intent = new Intent(MainActivity.this, NewHistoricalReportActivity.class);
-                        intent.putExtra("USER", mActiveUser);
-                        intent.putExtra("REPORT_TYPE", R.layout.water_historical_report);
-                        startActivity(intent);
-                    } else {
-                        return false;
-                    }
+                        startActivityForResult(intent, SUBMIT_REPORT_VALUE);
 
-                    return true;
+                        return true;
+                    });
+                    popup.show();
                 });
-                popup.show();
-            });
+                break;
         }
 
         // Ask android for the map
@@ -135,16 +143,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_edit_profile:
-                Intent intent = new Intent(this, EditProfileActivity.class);
+                intent = new Intent(this, EditProfileActivity.class);
                 intent.putExtra("USER", mActiveUser);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_PROFILE_VALUE);
                 return true;
             case R.id.action_log_out:
-                Intent intent2 = new Intent(this, LoginActivity.class);
-                startActivity(intent2);
                 finish();
+                return true;
+            case R.id.action_list_reports:
+                intent = new Intent(this, ListReportsActivity.class);
+                intent.putExtra("REPORTS", (ArrayList<Report>)mReports);
+                startActivity(intent);
                 return true;
         }
 
@@ -160,10 +172,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.setMyLocationEnabled(true);
         }
         mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(0, 0)));
-//        mReports.forEach(this::addLocationMarker);
-        for (Report r : mReports) {
-            addLocationMarker(r);
-        }
+        mReports.forEach(this::addLocationMarker);
     }
 
 
@@ -177,14 +186,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
-            case (0) : {
-                if (resultCode == Activity.RESULT_OK) {
-                    Report report = data.getParcelableExtra("REPORT");
-                    addLocationMarker(report);
-                    mReports.add(report);
-                }
+            case SUBMIT_REPORT_VALUE:
+                Report report = data.getParcelableExtra("REPORT");
+                addLocationMarker(report);
+                mReports.add(report);
                 break;
-            }
+            case EDIT_PROFILE_VALUE:
+                mActiveUser = data.getParcelableExtra("USER");
+                mDatabase.child("users").child(mActiveUser.email.replace('.', '_')).setValue(mActiveUser);
+                break;
         }
     }
 }

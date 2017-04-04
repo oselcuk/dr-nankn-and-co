@@ -5,14 +5,19 @@
     android:layout_width="match_parent">
 
     <item
+        android:id="@+id/action_log_out"
+        tools:icon="@drawable/ic_lock"
+        android:title="@string/log_out"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_edit_profile"
         android:icon="@drawable/ic_edit_profile"
         android:title="@string/edit_profile"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_log_out"
-        tools:icon="@drawable/ic_lock"
-        android:title="@string/log_out"
+        android:id="@+id/action_list_reports"
+        tools:icon="@drawable/ic_list_reports"
+        android:title="@string/list_reports"
         app:showAsAction="ifRoom" />
 
 </menu>
