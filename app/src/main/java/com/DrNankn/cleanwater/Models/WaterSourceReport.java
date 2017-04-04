@@ -26,6 +26,8 @@ public class WaterSourceReport extends Report {
         mWaterType = WaterType.valueOf(in.readString());
     }
 
+    private WaterSourceReport() {}
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
@@ -50,19 +52,19 @@ public class WaterSourceReport extends Report {
         }
     };
 
-    public WaterCondition getmWaterCondition() {
+    public WaterCondition getWaterCondition() {
         return mWaterCondition;
     }
 
-    public void setmWaterCondition(WaterCondition mWaterCondition) {
+    public void setWaterCondition(WaterCondition mWaterCondition) {
         this.mWaterCondition = mWaterCondition;
     }
 
-    public WaterType getmWaterType() {
+    public WaterType getWaterType() {
         return mWaterType;
     }
 
-    public void setmWaterType(WaterType mWaterType) {
+    public void setWaterType(WaterType mWaterType) {
         this.mWaterType = mWaterType;
     }
 

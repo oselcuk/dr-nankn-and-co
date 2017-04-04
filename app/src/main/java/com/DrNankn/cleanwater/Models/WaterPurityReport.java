@@ -34,6 +34,8 @@ public class WaterPurityReport extends Report {
         mContaminantPPM = in.readFloat();
     }
 
+    private WaterPurityReport() {}
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
@@ -59,20 +61,28 @@ public class WaterPurityReport extends Report {
         }
     };
 
-    public float getmVirusPPM() {
+    public float getVirusPPM() {
         return mVirusPPM;
     }
 
-    public void setmVirusPPM(float mVirusPPM) {
+    public void setVirusPPM(float mVirusPPM) {
         this.mVirusPPM = mVirusPPM;
     }
 
-    public float getmContaminantPPM() {
+    public float getContaminantPPM() {
         return mContaminantPPM;
     }
 
-    public void setmContaminantPPM(float mContaminantPPM) {
+    public void setContaminantPPM(float mContaminantPPM) {
         this.mContaminantPPM = mContaminantPPM;
+    }
+
+    public WaterCondition getWaterCondition() {
+        return mWaterCondition;
+    }
+
+    public void setWaterCondition(WaterCondition waterCondition) {
+        mWaterCondition = waterCondition;
     }
 
     @Override

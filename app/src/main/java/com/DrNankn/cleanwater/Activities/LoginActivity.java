@@ -287,7 +287,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed() { finish(); }
 
     private class ConfirmationWatcher implements TextWatcher {
 

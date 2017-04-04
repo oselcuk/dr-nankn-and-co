@@ -14,7 +14,8 @@ public abstract class Report implements Parcelable {
     private final UUID mReportId;
     private final Date mTimeStamp;
     private final String mAuthorEmail;
-    private LatLng mLocation;
+
+    private double mLatitude, mLongitude;
     protected String mNotes;
     /**
      * Creates a Report
@@ -27,17 +28,20 @@ public abstract class Report implements Parcelable {
 
     public Report(String authorEmail, LatLng location) {
         this(authorEmail);
-        mLocation = location;
+        mLatitude = location.latitude;
+        mLongitude = location.longitude;
     }
 
     protected Report(Parcel in) {
         mReportId = new UUID(in.readLong(), in.readLong());
         mTimeStamp = new Date(in.readLong());
         mAuthorEmail = in.readString();
-        mLocation = in.readParcelable(LatLng.class.getClassLoader());
+        mLatitude = in.readDouble();
+        mLongitude = in.readDouble();
         mNotes = in.readString();
-
     }
+
+    protected Report() {this("");}
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -45,7 +49,8 @@ public abstract class Report implements Parcelable {
         dest.writeLong(mReportId.getLeastSignificantBits());
         dest.writeLong(mTimeStamp.getTime());
         dest.writeString(mAuthorEmail);
-        dest.writeParcelable(mLocation, flags);
+        dest.writeDouble(mLatitude);
+        dest.writeDouble(mLongitude);
         dest.writeString(mNotes);
     }
 
@@ -54,8 +59,10 @@ public abstract class Report implements Parcelable {
     public String getAuthorEmail() { return mAuthorEmail; }
     public String getNotes() { return mNotes; }
     public void setNotes(String notes) { mNotes = notes; }
-    public LatLng getLocation() { return mLocation; }
-    public void setLocation(LatLng location) { mLocation = location; }
+    public double getLatitude() { return mLatitude; }
+    public void setLatitude(double mLatitude) { this.mLatitude = mLatitude; }
+    public double getLongitude() { return mLongitude; }
+    public void setLongitude(double mLongitude) { this.mLongitude = mLongitude; }
 
     @Override
     public String toString() {

@@ -30,16 +30,10 @@ public class EditProfileActivity extends AppCompatActivity {
         mActiveUser = getIntent().getParcelableExtra("USER");
         mAddressView = (EditText) findViewById(R.id.edit_address);
         mNameView = (EditText) findViewById(R.id.edit_name);
-//        mUserType = (Spinner) findViewById(R.id.edit_userType);
         mShortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
         mEditView = findViewById(R.id.activity_edit_profile);
         mProgressView = findViewById(R.id.progress_group);
 
-
-//        ArrayAdapter<String> adapter2 = new ArrayAdapter(this,android.R.layout.simple_spinner_item, new ArrayList<>(Arrays.asList(User.Role.values())));
-//        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        mUserType.setAdapter(adapter2);
-//        mUserType.setSelection(mActiveUser.role.ordinal());
         mAddressView.setText(mActiveUser.address);
         mNameView.setText(mActiveUser.name);
 

@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.DrNankn.cleanwater.Models.Report;
 import com.DrNankn.cleanwater.Models.User;
+import com.DrNankn.cleanwater.Models.WaterPurityReport;
+import com.DrNankn.cleanwater.Models.WaterSourceReport;
 import com.DrNankn.cleanwater.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,18 +24,19 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int SUBMIT_REPORT_VALUE = 0;
     private static final int EDIT_PROFILE_VALUE = 1;
-    private static List<Report> mReports = new ArrayList<>(); // Temporary reports store
+    private ArrayList<Report> mReports = new ArrayList<>();
     private DatabaseReference mDatabase;
 
     User mActiveUser;
@@ -45,7 +48,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        for (Class klass : new Class[]{WaterSourceReport.class, WaterPurityReport.class}) {
+            mDatabase.child("reports").child(klass.getName().replace('.', '_'))
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        Report report = (Report)data.getValue(klass);
+                        mReports.add(report);
+                        addLocationMarker(report);
+                    }
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
 
         // Set active user and the title
         mActiveUser = getIntent().getParcelableExtra("USER");
@@ -102,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
                         } else if (item.getItemId() == R.id.add_history_report) {
                             intent = new Intent(MainActivity.this, NewHistoricalReportActivity.class);
-                            intent.putExtra("USER", mActiveUser);
+                            intent.putParcelableArrayListExtra("REPORTS", mReports); //TODO: Let's give this guy its own button later
                         } else {
                             return false;
                         }
@@ -127,12 +147,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * @param report Report object to add a marker for
      */
     public void addLocationMarker(Report report) { // TODO: move all this map crap to a separate fragment?
-        if (report.getLocation() == null) {
-            Random random = new Random();
-            LatLng mLocation = new LatLng(random.nextDouble()*50-25, random.nextDouble()*50-25);
-            report.setLocation(mLocation);
-        }
-        mMap.addMarker(new MarkerOptions().position(report.getLocation()).title(report.toString()).draggable(true));
+        mMap.addMarker(
+                new MarkerOptions()
+                        .position(new LatLng(report.getLatitude(), report.getLongitude()))
+                        .title(report.toString()).draggable(true));
     }
 
     @Override
@@ -155,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             case R.id.action_list_reports:
                 intent = new Intent(this, ListReportsActivity.class);
-                intent.putExtra("REPORTS", (ArrayList<Report>)mReports);
+                intent.putExtra("REPORTS", mReports);
                 startActivity(intent);
                 return true;
         }
@@ -187,13 +205,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
             case SUBMIT_REPORT_VALUE:
-                Report report = data.getParcelableExtra("REPORT");
-                addLocationMarker(report);
-                mReports.add(report);
+                if (resultCode == RESULT_OK) {
+                    Report report = data.getParcelableExtra("REPORT");
+                    addLocationMarker(report);
+                    mReports.add(report);
+                    mDatabase.child("reports").child(report.getClass().getName().replace('.', '_'))
+                            .child(report.getReportId().toString()).setValue(report);
+                }
                 break;
             case EDIT_PROFILE_VALUE:
-                mActiveUser = data.getParcelableExtra("USER");
-                mDatabase.child("users").child(mActiveUser.email.replace('.', '_')).setValue(mActiveUser);
+                if (resultCode == RESULT_OK) {
+                    mActiveUser = data.getParcelableExtra("USER");
+                    mDatabase.child("users").child(
+                            mActiveUser.email.replace('.', '_')).setValue(mActiveUser);
+                }
                 break;
         }
     }
