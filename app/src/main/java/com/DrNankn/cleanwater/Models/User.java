@@ -1,3 +1,7 @@
+/* 
+* This class represents a user of the app which has 
+* an email, a name, a birth date, a role, and a address
+*/
 package com.DrNankn.cleanwater.Models;
 
 import android.os.Parcel;

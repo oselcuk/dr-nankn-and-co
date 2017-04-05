@@ -1,3 +1,7 @@
+/* 
+* This class represents a water source report which a type
+* of report that holds information about the water source
+*/
 package com.DrNankn.cleanwater.Models;
 
 import android.os.Parcel;

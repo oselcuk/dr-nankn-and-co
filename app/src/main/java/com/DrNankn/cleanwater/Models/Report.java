@@ -1,3 +1,7 @@
+/* 
+* This class represents a report that holds information 
+* about the author and the report itself
+*/
 package com.DrNankn.cleanwater.Models;
 
 import android.os.Parcel;

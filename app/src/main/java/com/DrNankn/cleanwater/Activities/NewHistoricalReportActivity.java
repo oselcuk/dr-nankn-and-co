@@ -1,3 +1,6 @@
+/* 
+* This class represents the activity of creating a new historical report
+*/
 package com.DrNankn.cleanwater.Activities;
 
 import android.os.Bundle;

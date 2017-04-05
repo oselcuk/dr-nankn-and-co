@@ -1,3 +1,6 @@
+/* 
+* This class represents the main activity for the app
+*/
 package com.DrNankn.cleanwater.Activities;
 
 import android.Manifest;

@@ -1,3 +1,6 @@
+/* 
+* This class represents the activity of logging into the application
+*/
 package com.DrNankn.cleanwater.Activities;
 
 import android.animation.Animator;

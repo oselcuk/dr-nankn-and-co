@@ -1,3 +1,7 @@
+/* 
+* This class represents a WaterPurityReport which is a type
+* of report that hold information about water purity
+*/
 package com.DrNankn.cleanwater.Models;
 
 import android.os.Parcel;

@@ -1,3 +1,7 @@
+/* 
+* This class represents different water conditions
+* to be used in water reports
+*/
 package com.DrNankn.cleanwater.Models;
 
 public enum WaterCondition {

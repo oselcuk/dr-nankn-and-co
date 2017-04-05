@@ -1,3 +1,6 @@
+/* 
+* This class represents a different types of water
+*/
 package com.DrNankn.cleanwater.Models;
 
 public enum WaterType {

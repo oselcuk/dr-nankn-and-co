@@ -1,3 +1,7 @@
+/* 
+* This class represents the activity of editing a user
+* profile
+*/
 package com.DrNankn.cleanwater.Activities;
 
 import android.animation.Animator;

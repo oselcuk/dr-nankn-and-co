@@ -1,3 +1,6 @@
+/* 
+* This class represents the activity of creating a new water report
+*/
 package com.DrNankn.cleanwater.Activities;
 
 import android.app.Activity;
