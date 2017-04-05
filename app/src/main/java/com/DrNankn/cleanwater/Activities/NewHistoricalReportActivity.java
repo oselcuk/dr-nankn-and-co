@@ -35,7 +35,6 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
     private ArrayList<Report> mReports;
     private final String[] ppmType = {"Virus", "Contaminant"};
     private Map<Integer, ArrayList<Float>> ppmMap = new HashMap<Integer, ArrayList<Float>>();
-    private int[] months = {0,1,2,3,4,5,6,7,8,9,10,11};
     private float[] ppm = new float[12];
 
     @Override
@@ -65,8 +64,8 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
         mHeading.setText(heading);
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
-        for (int i = 0; i < months.length; i++) {
-            series.appendData(new DataPoint(i+1,ppm[i]), true, months.length);
+        for (int i = 0; i < 12; i++) {
+            series.appendData(new DataPoint(i+1,ppm[i]), true, 12);
         }
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(8);
@@ -100,13 +99,8 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
             cal.setTime(report.getTimeStamp());
             int year = cal.get(Calendar.YEAR);
             if (year == requestedYear) {
-                if (report instanceof WaterPurityReport) {
-                    if (report.getLatitude() < lat + 8
-                            && report.getLatitude() > lat - 8
-                            && report.getLongitude() < lng + 8
-                            && report.getLongitude() > lng - 8) {
-                        purityReports.add(report);
-                    }
+                if (report instanceof WaterPurityReport && report.isInRequestedRange(lat, lng)) {
+                    purityReports.add(report);
                 }
             }
         }
@@ -132,7 +126,7 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
             }
         }
 
-        for (int i = 0; i < months.length; i++) {
+        for (int i = 0; i < 12; i++) {
             float sum = 0;
             int num = 0;
             if (ppmMap.get(i) != null) {

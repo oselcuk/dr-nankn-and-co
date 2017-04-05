@@ -65,6 +65,22 @@ public abstract class Report implements Parcelable {
     public void setLongitude(double mLongitude) { this.mLongitude = mLongitude; }
     public LatLng getLocation() { return new LatLng(mLatitude, mLongitude); }
 
+    /**
+     * Checks if the report's location is in the requested range of latitude and longitude
+     * @param lat the latitude for the requested range
+     * @param lng the longitude for the requested range
+     * @return boolean if the report is in the correct range
+     */
+    public boolean isInRequestedRange(float lat, float lng) {
+
+        if (this.getLatitude() < lat + 8
+                && this.getLatitude() > lat - 8
+                && this.getLongitude() < lng + 8
+                && this.getLongitude() > lng - 8) {
+            return true;
+        }
+        return false;
+    }
     @Override
     public String toString() {
         return "Report on " + new SimpleDateFormat("mm/dd").format(mTimeStamp) + " " + mReportId.toString();
