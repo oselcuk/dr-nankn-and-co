@@ -34,7 +34,7 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
     @SuppressWarnings("CollectionDeclaredAsConcreteClass")
     private ArrayList<Report> mReports;
     private final String[] ppmType = {"Virus", "Contaminant"};
-    private Map<Integer, ArrayList<Float>> ppmMap = new HashMap<Integer, ArrayList<Float>>();
+    private ArrayList<ArrayList<Float>> ppmMap = new ArrayList<ArrayList<Float>>(12);
     private float[] ppm = new float[12];
 
     @Override
@@ -85,6 +85,10 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
         mLatitude = (EditText) findViewById(R.id.latitude3);
         mLongitude = (EditText) findViewById(R.id.longitude3);
         mYear = (EditText) findViewById(R.id.year);
+        for (int j = 0; j < 12; j++) {
+            ArrayList<Float> list = new ArrayList<>();
+            ppmMap.add(j, list);
+        }
 
     }
     /**
@@ -117,7 +121,7 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
             ArrayList<Float> list = ppmMap.get(month);
             if (list == null) {
                 list = new ArrayList<>();
-                ppmMap.put(month, list);
+                ppmMap.add(month, list);
             }
             if (Objects.equals(mPPMSpinner.getSelectedItem().toString(), ppmType[0])) {
                 list.add(pReport.getVirusPPM());
