@@ -30,6 +30,8 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
     private EditText mLatitude;
     private EditText mLongitude;
     private List<Report> purityReports = new ArrayList<>();
+    // Required to be ArrayList to avoid having to cast it to get in and out of intents
+    @SuppressWarnings("CollectionDeclaredAsConcreteClass")
     private ArrayList<Report> mReports;
     private final String[] ppmType = {"Virus", "Contaminant"};
     private Map<Integer, ArrayList<Float>> ppmMap = new HashMap<Integer, ArrayList<Float>>();

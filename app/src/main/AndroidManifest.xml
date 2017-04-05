@@ -28,7 +28,6 @@
         <activity android:name=".Activities.EditProfileActivity" />
         <activity android:name=".Activities.NewWaterReportActivity" />
         <activity android:name=".Activities.NewHistoricalReportActivity" />
-        <activity android:name=".Activities.HistoricalReportGraph" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -37,13 +36,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".Activities.WaterLocationsActivity"
-            android:label="@string/title_activity_water_locations">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.DrNankn.cleanwater.Activities.MainActivity" />
-        </activity>
         <activity android:name=".Activities.ListReportsActivity"></activity>
     </application>
 

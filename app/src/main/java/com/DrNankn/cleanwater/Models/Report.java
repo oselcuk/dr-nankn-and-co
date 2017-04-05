@@ -63,6 +63,7 @@ public abstract class Report implements Parcelable {
     public void setLatitude(double mLatitude) { this.mLatitude = mLatitude; }
     public double getLongitude() { return mLongitude; }
     public void setLongitude(double mLongitude) { this.mLongitude = mLongitude; }
+    public LatLng getLocation() { return new LatLng(mLatitude, mLongitude); }
 
     @Override
     public String toString() {

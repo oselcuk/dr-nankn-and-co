@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void addLocationMarker(Report report) { // TODO: move all this map crap to a separate fragment?
         mMap.addMarker(
                 new MarkerOptions()
-                        .position(new LatLng(report.getLatitude(), report.getLongitude()))
+                        .position(report.getLocation())
                         .title(report.toString()).draggable(true));
     }
 
