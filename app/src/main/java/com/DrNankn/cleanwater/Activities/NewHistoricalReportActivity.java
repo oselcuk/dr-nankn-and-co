@@ -58,7 +58,7 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
         createPurityReport();
 
         setContentView(R.layout.historical_graph);
-        String heading = "Historical Report Graph: " + ppm + " ppm";
+        String heading = "Historical Report Graph: " + mPPMSpinner.getSelectedItem().toString() + " ppm";
         TextView mHeading = (TextView) findViewById(R.id.heading);
         Button mClose = (Button) findViewById(R.id.close_graph);
         mHeading.setText(heading);

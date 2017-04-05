@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case Worker:
                 submit_report.setOnClickListener(v -> {
                     PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
-                    popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
+                    popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu_worker, popup.getMenu());
                     popup.setOnMenuItemClickListener(item -> {
                         Intent intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
                         if (item.getItemId() == R.id.add_source_report) {
