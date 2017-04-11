@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
-            if ((id == R.id.login) || (id == EditorInfo.IME_NULL)) {
+            if (id == R.id.login || id == EditorInfo.IME_NULL) {
                 login();
                 return true;
             }
@@ -88,9 +88,9 @@ public class LoginActivity extends AppCompatActivity {
 
         CheckBox mShowPassword = (CheckBox) findViewById(R.id.show_password);
         mShowPassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            int t = (InputType.TYPE_CLASS_TEXT |
-                    (isChecked ? InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                               : InputType.TYPE_TEXT_VARIATION_PASSWORD));
+            int t = isChecked
+                    ? InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                    : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
             mPasswordView.setInputType(t);
             mPasswordConfirmationView.setInputType(t);
         });
@@ -118,15 +118,14 @@ public class LoginActivity extends AppCompatActivity {
         mEmailConfirmationView = (EditText) findViewById(R.id.confirm_email);
         mUserType = (Spinner) findViewById(R.id.userType);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,
-                new ArrayList<>(Arrays.asList(User.Role.values())));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mUserType.setAdapter(adapter);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter(this,android.R.layout.simple_spinner_item, new ArrayList<>(Arrays.asList(User.Role.values())));
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mUserType.setAdapter(adapter2);
 
         new ConfirmationWatcher(mEmailView, mEmailConfirmationView, "Email addresses");
 
         mEmailConfirmationView.setOnEditorActionListener((textView, id, keyEvent) -> {
-            if ((id == R.id.register) || (id == EditorInfo.IME_NULL)) {
+            if (id == R.id.register || id == EditorInfo.IME_NULL) {
                 createAccount();
                 return true;
             }
@@ -149,9 +148,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Creates an account for the user in the system and stores necessary information for the user
-     * like email, password and role. The method also checks that the password and email are valid
-     * entries.
+     * Creates an account for the user in the system and stores necessary information for the user like
+     * email, password and role. The method also checks that the password and email are valid entries.
      */
     private void createAccount() {
         final String email = mEmailView.getText().toString();
@@ -185,8 +183,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Attempts to log the user into the system. If the user enters a valid email address and
-     * password then control is passed to loginSuccessful, otherwise the method returns.
+     * Attempts to log the user into the system. If the user enters a valid email adress and password then control is
+     * passed to loginSuccessful, otherwise the method returns.
      */
     private void login() {
         if (mEmailView.getText().length() == 0) {
@@ -207,12 +205,10 @@ public class LoginActivity extends AppCompatActivity {
                     animateViewVisibility(mProgressView, false);
                     animateViewVisibility(mLoginFormView, true);
                     if (task.isSuccessful()) {
-                        mDatabase.child("users").orderByChild("email").equalTo(email)
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                        mDatabase.child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                User user = dataSnapshot.getChildren().iterator().next()
-                                        .getValue(User.class);
+                                User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
                                 loginSuccessful(user, false);
                             }
 
@@ -233,10 +229,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param user The user being logged into the system
      * @param newUser A boolean that indicates whether the user is a new user
      */
-    private void loginSuccessful(@SuppressWarnings("TypeMayBeWeakened") User user,
-                                 boolean newUser) {
-        // Since the called activity expects the "USER" extra to be a User, we only accept
-        //  a User object as argument to this class
+    private void loginSuccessful(User user, boolean newUser) {
         mPasswordView.getText().clear();
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("USER", user);
@@ -301,11 +294,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private class ConfirmationWatcher implements TextWatcher {
 
-        private final EditText mOriginal;
-        private final EditText mConfirmation;
-        private final CharSequence mTypes;
+        private EditText mOriginal;
+        private EditText mConfirmation;
+        private CharSequence mTypes;
 
-        @SuppressWarnings("ThisEscapedInObjectConstruction")
         ConfirmationWatcher(EditText original, EditText confirmation, CharSequence types) {
             mOriginal = original;
             mConfirmation = confirmation;
