@@ -1,5 +1,3 @@
-package com.DrNankn.cleanwater.Activities;
-
 import org.junit.Test;
 import org.junit.*;
 import static org.mockito.Mockito.*;
@@ -22,11 +20,27 @@ public class AnimateVisibilityTest {
     }
 
     @Test
+    public void visibilitySetTest2(){
+        View mockView = mock(View.class);
+        LoginActivity mActivity = mock(LoginActivity.class);
+        mActivity.animateViewVisibility(mockView, true);
+        assertEquals(mockView.getVisibility(), View.GONE);
+    }
+
+    @Test
     public void alphaSetTest(){
         View mockView = mock(View.class);
         LoginActivity mActivity = mock(LoginActivity.class);
         mActivity.animateViewVisibility(mockView, true);
         assertEquals(mockView.getAlpha(), 0, 0);
+    }
+
+    @Test
+    public void alphaSetTest2(){
+        View mockView = mock(View.class);
+        LoginActivity mActivity = mock(LoginActivity.class);
+        mActivity.animateViewVisibility(mockView, true);
+        assertEquals(mockView.getAlpha(), 1, 0);
     }
 
 }

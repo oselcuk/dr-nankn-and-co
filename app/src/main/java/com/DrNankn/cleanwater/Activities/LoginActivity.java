@@ -289,7 +289,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param view The view for the page
      * @param show A boolean indicating whether the page should be displayed
      */
-    protected void animateViewVisibility(final View view, final boolean show) {
+    public void animateViewVisibility(final View view, final boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);
         view.animate().setDuration(mShortAnimTime).alpha(
                 show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
