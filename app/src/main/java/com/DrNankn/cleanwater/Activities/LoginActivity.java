@@ -7,6 +7,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
@@ -279,13 +280,14 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
+    @VisibleForTesting
     /**
      * Animates the view visibility for the login screen
      *
      * @param view The view for the page
      * @param show A boolean indicating whether the page should be displayed
      */
-    private void animateViewVisibility(final View view, final boolean show) {
+    protected void animateViewVisibility(final View view, final boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);
         view.animate().setDuration(mShortAnimTime).alpha(
                 show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
