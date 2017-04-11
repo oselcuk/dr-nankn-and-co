@@ -14,15 +14,32 @@ public class User implements Parcelable{
     private String name;
     private String address;
 
+    /**
+     * Creates a new user
+     */
     public User() {
         role = Role.User;
         email = "";
     }
 
+    /**
+     * Creates a new user
+     *
+     * @param email     the user's email
+     * @param role      the role of the user
+     */
     public User(String email, Role role) {
         this(email, role, "N/A", email);
     }
 
+    /**
+     * Creates a new user
+     *
+     * @param email     the email of the user
+     * @param role      the role of the user
+     * @param address   the address of the user
+     * @param name      the name of the user
+     */
     private User(String email, Role role, String address, String name) {
         this.email = email;
         this.role = role;
@@ -30,6 +47,11 @@ public class User implements Parcelable{
         this.name = name;
     }
 
+    /**
+     * Creates a new user from information entered by the user
+     *
+     * @param in    information entered by the user
+     */
     private User(Parcel in) {
         this(in.readString(), Role.valueOf(in.readString()), in.readString(), in.readString());
     }

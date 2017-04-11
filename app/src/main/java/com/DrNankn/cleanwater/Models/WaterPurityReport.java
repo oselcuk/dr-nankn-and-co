@@ -31,6 +31,11 @@ public class WaterPurityReport extends Report {
         mContaminantPPM = contaminantPPM;
     }
 
+    /**
+     * Creates a water purity report from information entered by the user
+     *
+     * @param in    information entered by the user
+     */
     protected WaterPurityReport(Parcel in) {
         super(in);
         mWaterCondition = WaterCondition.valueOf(in.readString());
@@ -38,6 +43,9 @@ public class WaterPurityReport extends Report {
         mContaminantPPM = in.readFloat();
     }
 
+    /**
+     * Creates a water purity report
+     */
     private WaterPurityReport() {}
 
     @Override
@@ -93,4 +101,17 @@ public class WaterPurityReport extends Report {
     public String toString() {
         return "Water Purity " + super.toString();
     }
+
+     /**
+      * checks if the water's virus and contaminants are low enough to be considered safe
+      *
+      * @return a boolean indicating if the water is safe
+      */
+
+     public boolean isWaterSafe() {
+         if (mVirusPPM < .0001f && mContaminantPPM < .01f) {
+             return true;
+         }
+         return false;
+     }
 }

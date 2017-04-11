@@ -15,6 +15,7 @@ public class WaterSourceReport extends Report {
 
     /**
      * Creates a Water Source Report
+     *
      * @param type the water type of the Report
      * @param waterCondition the waterCondition of the water
      */
@@ -25,12 +26,20 @@ public class WaterSourceReport extends Report {
         mWaterCondition = waterCondition;
     }
 
+    /**
+     * Creates a water source report from the information entered by the user
+     *
+     * @param in    the information entered in by the user
+     */
     protected WaterSourceReport(Parcel in) {
         super(in);
         mWaterCondition = WaterCondition.valueOf(in.readString());
         mWaterType = WaterType.valueOf(in.readString());
     }
 
+    /**
+     * Creates a water source report
+     */
     private WaterSourceReport() {}
 
     @Override
