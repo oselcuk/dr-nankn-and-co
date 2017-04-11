@@ -35,7 +35,7 @@
         android:text="@string/condition_of_water"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView9"
+        android:id="@+id/textViewCondition"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="30dp"
@@ -50,7 +50,7 @@
         android:layout_marginTop="0dp" />
 
     <TextView
-        android:id="@+id/textViewuno"
+        android:id="@+id/textViewLatLong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"

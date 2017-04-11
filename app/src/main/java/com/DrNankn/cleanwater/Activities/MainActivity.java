@@ -198,7 +198,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.setMyLocationEnabled(true);
         }
         mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(0, 0)));
-        mReports.forEach(this::addLocationMarker);
+//        mReports.forEach(this::addLocationMarker);
+        for (Report report: mReports) {
+            addLocationMarker(report);
+        }
     }
 
 

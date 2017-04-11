@@ -23,7 +23,7 @@
         android:inputType="number" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textViewPPM"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -37,7 +37,7 @@
         android:layout_marginStart="30dp" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/LatitudeLongitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
