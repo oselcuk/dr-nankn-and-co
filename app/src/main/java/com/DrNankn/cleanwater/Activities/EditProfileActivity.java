@@ -22,7 +22,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private User mActiveUser;
     private EditText mAddressView;
     private EditText mNameView;
-//    private Spinner mUserType;
     private int mShortAnimTime;
     private View mEditView;
     private View mProgressView;
@@ -38,8 +37,8 @@ public class EditProfileActivity extends AppCompatActivity {
         mEditView = findViewById(R.id.activity_edit_profile);
         mProgressView = findViewById(R.id.progress_group);
 
-        mAddressView.setText(mActiveUser.address);
-        mNameView.setText(mActiveUser.name);
+        mAddressView.setText(mActiveUser.getAddress());
+        mNameView.setText(mActiveUser.getName());
 
         final Button mEditButton = (Button) findViewById(R.id.edit_button);
         mEditButton.setOnClickListener(v -> editNewFields()
@@ -55,9 +54,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private void editNewFields() {
         animateViewVisibility(mEditView, false);
         animateViewVisibility(mProgressView, true);
-        mActiveUser.address = mAddressView.getText().toString();
-        mActiveUser.name = mNameView.getText().toString();
-//        mActiveUser.role = (User.Role) mUserType.getSelectedItem();
+        mActiveUser.setAddress(mAddressView.getText().toString());
+        mActiveUser.setName(mNameView.getText().toString());
         animateViewVisibility(mProgressView, false);
         animateViewVisibility(mEditView, true);
         EditSuccessful(mActiveUser);
@@ -85,7 +83,9 @@ public class EditProfileActivity extends AppCompatActivity {
      *
      * @param user The user being edited
      */
-    private void EditSuccessful(User user) {
+    private void EditSuccessful(@SuppressWarnings("TypeMayBeWeakened") User user) {
+        // Since the parent of this activity expects the "USER" extra to be a User, we only accept
+        //  a User object as argument to this class
         Intent result = new Intent();
         result.putExtra("USER", user);
         setResult(Activity.RESULT_OK, result);

@@ -4,6 +4,7 @@
 */
 package com.DrNankn.cleanwater.Models;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -19,24 +20,25 @@ public abstract class Report implements Parcelable {
     private final Date mTimeStamp;
     private final String mAuthorEmail;
 
-    private double mLatitude, mLongitude;
-    protected String mNotes;
+    private double mLatitude;
+    private double mLongitude;
+    private String mNotes;
     /**
      * Creates a Report
      */
-    public Report(String authorEmail) {
+    private Report(String authorEmail) {
         mReportId = UUID.randomUUID();
         mTimeStamp = new Date();
         mAuthorEmail = authorEmail;
     }
 
-    public Report(String authorEmail, LatLng location) {
+    Report(String authorEmail, LatLng location) {
         this(authorEmail);
         mLatitude = location.latitude;
         mLongitude = location.longitude;
     }
 
-    protected Report(Parcel in) {
+    Report(Parcel in) {
         mReportId = new UUID(in.readLong(), in.readLong());
         mTimeStamp = new Date(in.readLong());
         mAuthorEmail = in.readString();
@@ -45,7 +47,7 @@ public abstract class Report implements Parcelable {
         mNotes = in.readString();
     }
 
-    protected Report() {this("");}
+    Report() {this("");}
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -77,16 +79,16 @@ public abstract class Report implements Parcelable {
      */
     public boolean isInRequestedRange(float lat, float lng) {
 
-        if (this.getLatitude() < lat + 8
+        return this.getLatitude() < lat + 8
                 && this.getLatitude() > lat - 8
                 && this.getLongitude() < lng + 8
-                && this.getLongitude() > lng - 8) {
-            return true;
-        }
-        return false;
+                && this.getLongitude() > lng - 8;
     }
+
+    @SuppressLint("SimpleDateFormat")
     @Override
     public String toString() {
-        return "Report on " + new SimpleDateFormat("mm/dd").format(mTimeStamp) + " " + mReportId.toString();
+        return "Report on " + new SimpleDateFormat("mm/dd").format(mTimeStamp)
+                + " " + mReportId.toString();
     }
 }

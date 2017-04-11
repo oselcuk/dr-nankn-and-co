@@ -20,25 +20,24 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class NewHistoricalReportActivity extends AppCompatActivity {
+    private static final int NUM_MONTHS = 12;
     private Spinner mPPMSpinner;
     private Button mCreateButton;
     private Button mCancelButton;
     private EditText mYear;
     private EditText mLatitude;
     private EditText mLongitude;
-    private List<Report> purityReports = new ArrayList<>();
+    private final List<Report> purityReports = new ArrayList<>();
     // Required to be ArrayList to avoid having to cast it to get in and out of intents
     @SuppressWarnings("CollectionDeclaredAsConcreteClass")
     private ArrayList<Report> mReports;
     private final String[] ppmType = {"Virus", "Contaminant"};
-    private ArrayList<ArrayList<Float>> ppmMap = new ArrayList<ArrayList<Float>>(12);
-    private float[] ppm = new float[12];
+    private final List<List<Float>> ppmMap = new ArrayList<>(NUM_MONTHS);
+    private final float[] ppm = new float[NUM_MONTHS];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,8 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
         mReports = getIntent().getParcelableArrayListExtra("REPORTS");
         setContentView(R.layout.water_historical_report);
         setUpHistoryReport();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ppmType);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ppmType);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPPMSpinner.setAdapter(adapter);
         mCancelButton.setOnClickListener(v -> finish());
@@ -61,14 +61,15 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
         createPurityReport();
 
         setContentView(R.layout.historical_graph);
-        String heading = "Historical Report Graph: " + mPPMSpinner.getSelectedItem().toString() + " ppm";
+        String heading =
+                "Historical Report Graph: " + mPPMSpinner.getSelectedItem().toString() + " ppm";
         TextView mHeading = (TextView) findViewById(R.id.heading);
         Button mClose = (Button) findViewById(R.id.close_graph);
         mHeading.setText(heading);
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
-        for (int i = 0; i < 12; i++) {
-            series.appendData(new DataPoint(i+1,ppm[i]), true, 12);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        for (int i = 0; i < NUM_MONTHS; i++) {
+            series.appendData(new DataPoint(i+1,ppm[i]), true, NUM_MONTHS);
         }
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(8);
@@ -88,9 +89,8 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
         mLatitude = (EditText) findViewById(R.id.latitude3);
         mLongitude = (EditText) findViewById(R.id.longitude3);
         mYear = (EditText) findViewById(R.id.year);
-        for (int j = 0; j < 12; j++) {
-            ArrayList<Float> list = new ArrayList<>();
-            ppmMap.add(j, list);
+        for (int j = 0; j < NUM_MONTHS; j++) {
+            ppmMap.add(j, new ArrayList<>());
         }
 
     }
@@ -98,22 +98,25 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
      * Creates a list of Purity Reports in a particular year and Region
      */
     private void createPurityReportsList() {
-        float lat = mLatitude.getText().toString().equals("")? 0 : Float.valueOf(mLatitude.getText().toString());
-        float lng = mLongitude.getText().toString().equals("")? 0 : Float.valueOf(mLongitude.getText().toString());
-        int requestedYear = mYear.getText().toString().equals("")? 0: Integer.valueOf(mYear.getText().toString());
+        float lat = "".equals(mLatitude.getText().toString()) ? 0
+                : Float.valueOf(mLatitude.getText().toString());
+        float lng = "".equals(mLongitude.getText().toString()) ? 0
+                : Float.valueOf(mLongitude.getText().toString());
+        int requestedYear = "".equals(mYear.getText().toString()) ? 0
+                : Integer.valueOf(mYear.getText().toString());
         for (Report report : mReports) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(report.getTimeStamp());
             int year = cal.get(Calendar.YEAR);
             if (year == requestedYear) {
-                if (report instanceof WaterPurityReport && report.isInRequestedRange(lat, lng)) {
+                if ((report instanceof WaterPurityReport) && report.isInRequestedRange(lat, lng)) {
                     purityReports.add(report);
                 }
             }
         }
     }
     /**
-     * Calculates the average ppm per month value of the requested ppm value of all the valid reports
+     * Calculate the average ppm per month value of the requested ppm value of all the valid reports
      */
     private void createPurityReport() {
         for (int i = 0; i < purityReports.size(); i++) {
@@ -121,7 +124,7 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
             Calendar cal = Calendar.getInstance();
             cal.setTime(pReport.getTimeStamp());
             int month = cal.get(Calendar.MONTH);
-            ArrayList<Float> list = ppmMap.get(month);
+            List<Float> list = ppmMap.get(month);
             if (list == null) {
                 list = new ArrayList<>();
                 ppmMap.add(month, list);
@@ -133,7 +136,7 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
             }
         }
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < NUM_MONTHS; i++) {
             float sum = 0;
             int num = 0;
             if (ppmMap.get(i) != null) {
@@ -142,7 +145,7 @@ public class NewHistoricalReportActivity extends AppCompatActivity {
                     num++;
                 }
             }
-            float avg = num != 0? sum/num: 0;
+            float avg = (num != 0) ? (sum / num) : 0;
             ppm[i] = avg;
         }
     }

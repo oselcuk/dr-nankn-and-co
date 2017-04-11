@@ -43,7 +43,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <TextView
-            android:text="Edit Name"
+            android:text="@string/edit_name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editNameLabel" />
@@ -57,7 +57,7 @@
             android:maxLines="1" />
 
         <TextView
-            android:text="Edit Address"
+            android:text="@string/edit_address_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView3" />
@@ -70,17 +70,6 @@
             android:inputType="text"
             android:maxLines="1" />
 
-        <!--<TextView-->
-            <!--android:text="Edit User Type"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/textView4" />-->
-
-        <!--<Spinner-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/edit_userType" />-->
-
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +81,7 @@
                 style="?android:textAppearanceSmall"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:text="Edit"
+                android:text="@string/edit_label"
                 android:textStyle="bold"
                 android:layout_column="0"/>
 
@@ -101,7 +90,7 @@
                 style="@android:style/TextAppearance.Material.Small"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:text="Cancel"
+                android:text="@string/cancel_label"
                 android:textStyle="bold"
                 android:layout_column="1"/>
 
@@ -110,7 +99,7 @@
     </LinearLayout>
 
     <Button
-        android:text="Change Password"
+        android:text="@string/change_password_label"
         style="@android:style/TextAppearance.Material.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

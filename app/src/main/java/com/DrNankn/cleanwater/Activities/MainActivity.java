@@ -39,11 +39,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private static final int SUBMIT_REPORT_VALUE = 0;
     private static final int EDIT_PROFILE_VALUE = 1;
-    private ArrayList<Report> mReports = new ArrayList<>();
+    private final ArrayList<Report> mReports = new ArrayList<>();
     private DatabaseReference mDatabase;
 
-    User mActiveUser;
-    GoogleMap mMap;
+    private User mActiveUser;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Set active user and the title
         mActiveUser = getIntent().getParcelableExtra("USER");
-        setTitle("Welcome " + mActiveUser.name + "(" + mActiveUser.role + ")");
         if (getIntent().getBooleanExtra("NEW_USER", false)) {
             Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show();
         }
@@ -80,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Set callbacks for the submit report button
         // TODO: Getting the list of possible report types should be delegated to the user object
         final Button submit_report = (Button) findViewById(R.id.submit_report_button);
-        switch (mActiveUser.role) {
+        switch (mActiveUser.getRole()) {
             case User:
                 submit_report.setText(getString(R.string.add_water_source_report));
                 submit_report.setOnClickListener(v -> {
@@ -93,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case Worker:
                 submit_report.setOnClickListener(v -> {
                     PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
-                    popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu_worker, popup.getMenu());
+                    popup.getMenuInflater()
+                            .inflate(R.menu.submit_report_popup_menu_worker, popup.getMenu());
                     popup.setOnMenuItemClickListener(item -> {
                         Intent intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
                         if (item.getItemId() == R.id.add_source_report) {
@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case Administrator:
                 submit_report.setOnClickListener(v -> {
                     PopupMenu popup = new PopupMenu(MainActivity.this, submit_report);
-                    popup.getMenuInflater().inflate(R.menu.submit_report_popup_menu, popup.getMenu());
+                    popup.getMenuInflater()
+                            .inflate(R.menu.submit_report_popup_menu, popup.getMenu());
                     popup.setOnMenuItemClickListener(item -> {
                         Intent intent;
                         if (item.getItemId() == R.id.add_source_report) {
@@ -124,8 +125,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             intent = new Intent(MainActivity.this, NewWaterReportActivity.class);
                             intent.putExtra("REPORT_TYPE", R.layout.water_purity_report);
                         } else if (item.getItemId() == R.id.add_history_report) {
-                            intent = new Intent(MainActivity.this, NewHistoricalReportActivity.class);
-                            intent.putParcelableArrayListExtra("REPORTS", mReports); //TODO: Let's give this guy its own button later
+                            intent = new Intent(MainActivity.this,
+                                    NewHistoricalReportActivity.class);
+                            //TODO: Let's give this guy its own button later
+                            intent.putParcelableArrayListExtra("REPORTS", mReports);
                         } else {
                             return false;
                         }
@@ -149,7 +152,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Add a location marker for the given report
      * @param report Report object to add a marker for
      */
-    public void addLocationMarker(Report report) { // TODO: move all this map crap to a separate fragment?
+    private void addLocationMarker(Report report) {
+        // TODO: move all this map crap to a separate fragment?
         mMap.addMarker(
                 new MarkerOptions()
                         .position(report.getLocation())
@@ -187,8 +191,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) && (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         } else {
             mMap.setMyLocationEnabled(true);
         }
@@ -220,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (resultCode == RESULT_OK) {
                     mActiveUser = data.getParcelableExtra("USER");
                     mDatabase.child("users").child(
-                            mActiveUser.email.replace('.', '_')).setValue(mActiveUser);
+                            mActiveUser.getEmail().replace('.', '_')).setValue(mActiveUser);
                 }
                 break;
         }

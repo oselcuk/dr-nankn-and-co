@@ -10,7 +10,7 @@ public enum WaterCondition {
     Waste,
     TreatableMuddy;
 
-    final public static String[] legalValues = new String[] {
+    public static final String[] legalValues = new String[] {
             TreatableClear.toString(),
             Potable.toString(),
             Waste.toString(),

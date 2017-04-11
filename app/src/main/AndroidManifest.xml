@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.DrNankn.cleanwater">
 
     <!--
@@ -14,7 +15,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
             android:name=".Activities.LoginActivity"
             android:label="@string/app_name">
@@ -36,7 +38,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activities.ListReportsActivity"></activity>
+        <activity android:name=".Activities.ListReportsActivity" />
     </application>
 
 </manifest>

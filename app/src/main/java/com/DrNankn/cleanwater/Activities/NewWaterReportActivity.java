@@ -41,10 +41,11 @@ public class NewWaterReportActivity extends AppCompatActivity {
         mActiveUser = getIntent().getParcelableExtra("USER");
         final int reportType = getIntent().getIntExtra("REPORT_TYPE", 0);
         setContentView(reportType);
-        if (reportType == R.layout.water_source_report)
+        if (reportType == R.layout.water_source_report) {
             setUpSourceReport();
-        else if (reportType == R.layout.water_purity_report)
+        } else if (reportType == R.layout.water_purity_report) {
             setUpPurityReport();
+        }
 
         if (mWaterConditionSpinner != null) {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -60,10 +61,11 @@ public class NewWaterReportActivity extends AppCompatActivity {
         }
         mCancelButton.setOnClickListener(v -> NewWaterReportActivity.this.onBackPressed());
         mCreateButton.setOnClickListener(v -> {
-            if (reportType == R.layout.water_source_report)
+            if (reportType == R.layout.water_source_report) {
                 createSourceReport();
-            else if (reportType == R.layout.water_purity_report)
+            } else if (reportType == R.layout.water_purity_report) {
                 createPurityReport();
+            }
             Intent result = new Intent();
             result.putExtra("REPORT", mReport);
             setResult(Activity.RESULT_OK, result);
@@ -75,18 +77,19 @@ public class NewWaterReportActivity extends AppCompatActivity {
      * Creates a Purity Report
      */
     private void createPurityReport() {
-        String virusppm = ((EditText)findViewById(R.id.virus_ppm_text)).getText().toString();
-        String contmppm = ((EditText)findViewById(R.id.contaminant_ppm_text)).getText().toString();
+        String virus = ((EditText)findViewById(R.id.virus_ppm_text)).getText().toString();
+        String contaminant =
+                ((EditText)findViewById(R.id.contaminant_ppm_text)).getText().toString();
         String latitude = mLatitude.getText().toString();
         String longitude = mLongitude.getText().toString();
-        double lat = latitude.equals("") ? 0 : Float.valueOf(latitude);
-        double longit = longitude.equals("") ? 0 : Float.valueOf(longitude);
-        mLocation = new LatLng(lat, longit);
+        double lat = "".equals(latitude) ? 0 : Float.valueOf(latitude);
+        double lgt = "".equals(longitude) ? 0 : Float.valueOf(longitude);
+        mLocation = new LatLng(lat, lgt);
         mReport = new WaterPurityReport(
-                mActiveUser.email, mLocation,
+                mActiveUser.getEmail(), mLocation,
                 WaterCondition.valueOf(mWaterConditionSpinner.getSelectedItem().toString()),
-                virusppm.equals("") ? 0 : Float.valueOf(virusppm),
-                contmppm.equals("") ? 0 : Float.valueOf(contmppm)
+                "".equals(virus) ? 0 : Float.valueOf(virus),
+                "".equals(contaminant) ? 0 : Float.valueOf(contaminant)
         );
     }
     /**
@@ -95,11 +98,11 @@ public class NewWaterReportActivity extends AppCompatActivity {
     private void createSourceReport() {
         String latitude = mLatitude.getText().toString();
         String longitude = mLongitude.getText().toString();
-        double lat = latitude.equals("") ? 0 : Float.valueOf(latitude);
-        double longit = longitude.equals("") ? 0 : Float.valueOf(longitude);
-        mLocation = new LatLng(lat, longit);
+        double lat = "".equals(latitude) ? 0 : Float.valueOf(latitude);
+        double lgt = "".equals(longitude) ? 0 : Float.valueOf(longitude);
+        mLocation = new LatLng(lat, lgt);
         mReport = new WaterSourceReport(
-                mActiveUser.email, mLocation,
+                mActiveUser.getEmail(), mLocation,
                 WaterType.valueOf(mWaterTypeSpinner.getSelectedItem().toString()),
                 WaterCondition.valueOf(mWaterConditionSpinner.getSelectedItem().toString())
         );
@@ -110,7 +113,7 @@ public class NewWaterReportActivity extends AppCompatActivity {
     private void setUpPurityReport() {
         setTitle("Submit purity report");
         TextView userLabel = (TextView) findViewById(R.id.purity_submitting_as_label);
-        userLabel.append(" " + mActiveUser.name);
+        userLabel.append(" " + mActiveUser.getName());
         mWaterConditionSpinner = (Spinner) findViewById(R.id.purity_water_condition_spinner);
         mCreateButton = (Button) findViewById(R.id.purity_create_button);
         mCancelButton = (Button) findViewById(R.id.purity_cancel_button);
@@ -124,7 +127,7 @@ public class NewWaterReportActivity extends AppCompatActivity {
     private void setUpSourceReport() {
         setTitle("Submit source report");
         TextView userLabel = (TextView) findViewById(R.id.source_submitting_as_label);
-        userLabel.append(" " + mActiveUser.name);
+        userLabel.append(" " + mActiveUser.getName());
         mWaterConditionSpinner = (Spinner) findViewById(R.id.source_water_condition_spinner);
         mWaterTypeSpinner = (Spinner) findViewById(R.id.source_type_spinner);
         mCreateButton = (Button) findViewById(R.id.source_create_button);

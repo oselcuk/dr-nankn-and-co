@@ -2,25 +2,17 @@
     <string name="app_name">CleanWater</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_log_in">Log in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_password">This password is too short</string>
-    <string name="error_invalid_username">This username is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_incorrect_credentials">Incorrect username or password</string>
-    <string name="error_field_required">This field is required</string>
     <string name="register">Register</string>
     <string name="confirm_email_address">Confirm Email Address</string>
     <string name="email_address">Email Address</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="show_password">Show password</string>
-    <string name="cancel_login">Cancel Login</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="log_out">Log Out</string>
-    <string name="edit_email">New Email</string>
-    <string name="edit_password">New Password</string>
     <string name="edit_address">New Address</string>
     <string name="edit_name">New Name</string>
     <string name="submit_report">Submit Report</string>
@@ -33,6 +25,18 @@
     <string name="location_coord">Latitude and Longitude</string>
     <string name="year">Year</string>
     <string name="ppm">PPM</string>
-    <string name="title_activity_water_locations">Locations</string>
     <string name="list_reports">List Reports</string>
+    <string name="edit_name_label">Edit Name</string>
+    <string name="edit_address_label">Edit Address</string>
+    <string name="edit_label">Edit</string>
+    <string name="cancel_label">Cancel</string>
+    <string name="change_password_label">Change Password</string>
+    <string name="_0">0</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="water_condition">Water Condition:</string>
+    <string name="virus_ppm">Virus PPM:</string>
+    <string name="contaminant_ppm">Contaminant PPM:</string>
+    <string name="type_of_water">Type of Water</string>
+    <string name="condition_of_water">Condition of Water</string>
 </resources>

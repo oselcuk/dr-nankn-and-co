@@ -18,7 +18,8 @@ public class WaterSourceReport extends Report {
      * @param type the water type of the Report
      * @param waterCondition the waterCondition of the water
      */
-    public WaterSourceReport(String authorEmail, LatLng location, WaterType type, WaterCondition waterCondition) {
+    public WaterSourceReport(String authorEmail, LatLng location, WaterType type,
+                             WaterCondition waterCondition) {
         super(authorEmail, location);
         mWaterType = type;
         mWaterCondition = waterCondition;

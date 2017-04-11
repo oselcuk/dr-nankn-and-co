@@ -10,7 +10,7 @@ public enum WaterType {
     Stream,
     Other;
 
-    final public static String[] legalValues = new String[] {
+    public static final String[] legalValues = new String[] {
             Bottled.toString(),
             Well.toString(),
             Lake.toString(),
