@@ -25,6 +25,8 @@ public abstract class Report implements Parcelable {
     private String mNotes;
     /**
      * Creates a Report
+     *
+     * @param authorEmail   The author of the report's email
      */
     private Report(String authorEmail) {
         mReportId = UUID.randomUUID();
@@ -32,6 +34,11 @@ public abstract class Report implements Parcelable {
         mAuthorEmail = authorEmail;
     }
 
+    /**
+     * creates a report
+     * @param authorEmail   The author of the report's email
+     * @param location      The location for the report
+     */
     Report(String authorEmail, LatLng location) {
         this(authorEmail);
         mLatitude = location.latitude;

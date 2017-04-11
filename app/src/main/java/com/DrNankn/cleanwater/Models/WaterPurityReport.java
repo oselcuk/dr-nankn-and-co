@@ -93,4 +93,17 @@ public class WaterPurityReport extends Report {
     public String toString() {
         return "Water Purity " + super.toString();
     }
+
+     /**
+      * checks if the water's virus and contaminants are low enough to be considered safe
+      *
+      * @return a boolean indicating if the water is safe
+      */
+
+     public boolean isWaterSafe() {
+         if (mVirusPPM < .0001f && mContaminantPPM < .01f) {
+             return true;
+         }
+         return false;
+     }
 }
