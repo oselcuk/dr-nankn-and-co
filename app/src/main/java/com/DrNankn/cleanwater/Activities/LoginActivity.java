@@ -249,7 +249,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private boolean validatePassword() {
         String password = mPasswordView.getText().toString();
-        boolean valid = password.length() > 3;
+        boolean valid = validatePassString(password);
         if (!valid) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             mPasswordView.requestFocus();
@@ -257,6 +257,13 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
+    /**
+     * Helps to validate the email by handling combinational logic
+     */
+    public boolean validatePassString(String password) {
+        boolean valid = password.length() > 3;
+        return valid;
+    }
     /**
      * Checks to see if the email is a valid email address
      *
