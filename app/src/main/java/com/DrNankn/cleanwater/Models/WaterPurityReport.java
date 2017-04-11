@@ -31,6 +31,11 @@ public class WaterPurityReport extends Report {
         mContaminantPPM = contaminantPPM;
     }
 
+    /**
+     * Creates a water purity report from information entered by the user
+     *
+     * @param in    information entered by the user
+     */
     protected WaterPurityReport(Parcel in) {
         super(in);
         mWaterCondition = WaterCondition.valueOf(in.readString());
@@ -38,6 +43,9 @@ public class WaterPurityReport extends Report {
         mContaminantPPM = in.readFloat();
     }
 
+    /**
+     * Creates a water purity report
+     */
     private WaterPurityReport() {}
 
     @Override

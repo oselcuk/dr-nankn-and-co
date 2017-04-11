@@ -259,6 +259,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Helps to validate the email by handling combinational logic
+     *
+     * @param password      the password used for logging in the user
      */
     public boolean validatePassString(String password) {
         boolean valid = password.length() > 3;

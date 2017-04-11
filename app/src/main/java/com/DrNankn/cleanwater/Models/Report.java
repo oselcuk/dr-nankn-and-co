@@ -45,6 +45,11 @@ public abstract class Report implements Parcelable {
         mLongitude = location.longitude;
     }
 
+    /**
+     * Creates a new report from the information entered by the user
+     *
+     * @param in    The parcel being passed in by the user
+     */
     Report(Parcel in) {
         mReportId = new UUID(in.readLong(), in.readLong());
         mTimeStamp = new Date(in.readLong());
