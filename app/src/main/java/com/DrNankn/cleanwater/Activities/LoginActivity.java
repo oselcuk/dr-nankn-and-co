@@ -7,7 +7,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
@@ -250,7 +249,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private boolean validatePassword() {
         String password = mPasswordView.getText().toString();
-        boolean valid = validatePassString(password);
+        boolean valid = password.length() > 3;
         if (!valid) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             mPasswordView.requestFocus();
@@ -258,15 +257,6 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    /**
-     * Helps to validate the email by handling combinational logic
-     *
-     * @param password      the password used for logging in the user
-     */
-    public boolean validatePassString(String password) {
-        boolean valid = password.length() > 3;
-        return valid;
-    }
     /**
      * Checks to see if the email is a valid email address
      *
@@ -282,14 +272,13 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    @VisibleForTesting
     /**
      * Animates the view visibility for the login screen
      *
      * @param view The view for the page
      * @param show A boolean indicating whether the page should be displayed
      */
-    public void animateViewVisibility(final View view, final boolean show) {
+    private void animateViewVisibility(final View view, final boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);
         view.animate().setDuration(mShortAnimTime).alpha(
                 show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
