@@ -111,6 +111,10 @@ public class LoginActivity extends AppCompatActivity {
         });
         mRegisterButton.setImeActionLabel("Register", KeyEvent.KEYCODE_ENTER);
 
+        // Button for forgetting password, sending a reset email
+        Button mForgotPasswordButton = (Button) findViewById(R.id.reset_password_button);
+        mForgotPasswordButton.setOnClickListener(v -> passwordReset());
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.progress_group);
 
@@ -221,6 +225,14 @@ public class LoginActivity extends AppCompatActivity {
                         mEmailView.requestFocus();
                     }
                 });
+    }
+
+    /**
+     * Handles sending a password reset email
+     */
+    public void passwordReset() {
+        mEmailView.setError("Password reset email sent");
+        mAuth.sendPasswordResetEmail(mEmailView.getText().toString());
     }
 
     /**
