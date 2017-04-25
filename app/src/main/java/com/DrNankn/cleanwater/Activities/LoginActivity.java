@@ -231,8 +231,23 @@ public class LoginActivity extends AppCompatActivity {
      * Handles sending a password reset email
      */
     public void passwordReset() {
-        mEmailView.setError("Password reset email sent");
-        mAuth.sendPasswordResetEmail(mEmailView.getText().toString());
+        String email = mEmailView.getText().toString();
+        mDatabase.child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    mEmailView.setError("Password reset email sent");
+                    mAuth.sendPasswordResetEmail(mEmailView.getText().toString());
+                }
+                else {
+                    mEmailView.setError("Couldn't send email");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     /**
