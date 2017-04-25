@@ -106,15 +106,15 @@
 
     </LinearLayout>
 
-    <Button
-        android:text="@string/change_password_label"
-        style="@android:style/TextAppearance.Material.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_group"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:id="@+id/button2" />
+    <!--<Button-->
+        <!--android:text="@string/change_password_label"-->
+        <!--style="@android:style/TextAppearance.Material.Small"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/edit_group"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:textStyle="bold"-->
+        <!--android:id="@+id/button2" />-->
 
 
 </RelativeLayout>

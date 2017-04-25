@@ -122,7 +122,11 @@ public class EditProfileActivity extends AppCompatActivity {
         setResult(Activity.RESULT_OK, result);
         finish();
     }
-
+    /**
+     * Changes the profile picture of the user
+     *
+     * @param bmp The image being added as the profile picture
+     */
     private void changePicture(Bitmap bmp) {
         int mx = Math.max(bmp.getWidth(), bmp.getHeight());
         if (mx > 256) {

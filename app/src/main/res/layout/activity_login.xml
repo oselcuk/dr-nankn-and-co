@@ -150,21 +150,19 @@
                     android:layout_columnWeight="1"
                     android:text="@string/action_log_in"
                     android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/reset_password_button"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="@android:dimen/app_icon_size"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1"
-                    android:background="@android:color/holo_orange_light"
-                    android:backgroundTint="@android:color/holo_blue_bright"
-                    android:elevation="0dp"
-                    android:text="Forgot Password?"
-                    android:textStyle="bold" />
-
             </GridLayout>
+
+            <Button
+                android:id="@+id/reset_password_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_marginLeft="90dp"
+                android:elevation="0dp"
+                android:text="Forgot Password?"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
